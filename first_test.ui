@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1235</width>
+    <height>822</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Eve IDE</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/pic/main.ico</normaloff>:/pic/main.ico</iconset>
+  </property>
+  <property name="toolTip">
+   <string>ff</string>
+  </property>
+  <property name="toolTipDuration">
+   <number>1</number>
+  </property>
+  <property name="statusTip">
+   <string comment="tr"/>
+  </property>
+  <property name="whatsThis">
+   <string extracomment="test"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QMdiArea" name="mdi">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>651</width>
+      <height>501</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1235</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="action_open"/>
+    <addaction name="action_new"/>
+    <addaction name="action_save"/>
+    <addaction name="action_saveas"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actioncopy"/>
+    <addaction name="actioncut"/>
+    <addaction name="actionpaste"/>
+    <addaction name="actionindent"/>
+    <addaction name="actionunindent"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="action_project_files"/>
+    <addaction name="actionElumination_View"/>
+    <addaction name="actionBuild_output"/>
+   </widget>
+   <widget class="QMenu" name="menuActions">
+    <property name="title">
+     <string>Actions</string>
+    </property>
+    <addaction name="actionView_the_Eluminate"/>
+    <addaction name="actionChange_into_COE"/>
+    <addaction name="actionChange_into_MIF"/>
+    <addaction name="actionChange_into_Binary"/>
+    <addaction name="actionChange_into_Hex"/>
+    <addaction name="actionDownload_2"/>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <widget class="QMenu" name="menuChoose_background_style">
+     <property name="title">
+      <string>Choose background style</string>
+     </property>
+     <addaction name="actionWindows"/>
+     <addaction name="actionWindowsXP"/>
+     <addaction name="actionWindowsVista"/>
+     <addaction name="actionFusion"/>
+     <addaction name="actionDark"/>
+    </widget>
+    <addaction name="actionchoose_workspace"/>
+    <addaction name="menuChoose_background_style"/>
+    <addaction name="actionChoose_the_port"/>
+   </widget>
+   <widget class="QMenu" name="menuProject">
+    <property name="title">
+     <string>Project</string>
+    </property>
+    <widget class="QMenu" name="menuNew_Project">
+     <property name="title">
+      <string>New Project</string>
+     </property>
+     <addaction name="actionnew_empty_project"/>
+     <addaction name="actionnew_gd32vf103_project"/>
+     <addaction name="actionnew_prv332_project"/>
+    </widget>
+    <addaction name="menuNew_Project"/>
+    <addaction name="actionOpen_Project"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionserial_monitor"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuView"/>
+   <addaction name="menuActions"/>
+   <addaction name="menuSettings"/>
+   <addaction name="menuProject"/>
+   <addaction name="menuTools"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar_file">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_new"/>
+   <addaction name="action_open"/>
+   <addaction name="action_save"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar_action">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar_3</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionView_the_Eluminate"/>
+   <addaction name="actionDownload_2"/>
+   <addaction name="actionChange_into_Hex"/>
+   <addaction name="actionChange_into_COE"/>
+   <addaction name="actionChange_into_Binary"/>
+   <addaction name="actionChange_into_MIF"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar_edit">
+   <property name="windowTitle">
+    <string>toolBar_5</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>RightToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actioncopy"/>
+   <addaction name="actioncut"/>
+   <addaction name="actionpaste"/>
+   <addaction name="actionindent"/>
+   <addaction name="actionunindent"/>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget_tree">
+   <property name="mouseTracking">
+    <bool>false</bool>
+   </property>
+   <property name="windowIcon">
+    <iconset>
+     <normaloff>:/pic/main.ico</normaloff>:/pic/main.ico</iconset>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="statusTip">
+    <string>tree of files </string>
+   </property>
+   <property name="whatsThis">
+    <string/>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="features">
+    <set>QDockWidget::AllDockWidgetFeatures</set>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="1">
+      <widget class="QTreeWidget" name="tree">
+       <column>
+        <property name="text">
+         <string notr="true">1</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget_2">
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_12"/>
+  </widget>
+  <widget class="QDockWidget" name="dock_connection">
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_15"/>
+  </widget>
+  <action name="action_open">
+   <property name="icon">
+    <iconset>
+     <normaloff>icos/fileopen.ico</normaloff>icos/fileopen.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Open</string>
+   </property>
+   <property name="toolTip">
+    <string>Open a file</string>
+   </property>
+   <property name="statusTip">
+    <string extracomment="open a file">Click to open a file</string>
+   </property>
+   <property name="whatsThis">
+    <string extracomment="to open a file">to open a file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_new">
+   <property name="icon">
+    <iconset>
+     <normaloff>icos/filenew.ico</normaloff>icos/filenew.ico</iconset>
+   </property>
+   <property name="text">
+    <string>New</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new file</string>
+   </property>
+   <property name="statusTip">
+    <string>Click to create a new file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="action_save">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>icos/filesave.ico</normaloff>icos/filesave.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="toolTip">
+    <string>Save the file</string>
+   </property>
+   <property name="statusTip">
+    <string>Click to save the file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_saveas">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>SaveAs</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="action_project_files">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Project Files</string>
+   </property>
+  </action>
+  <action name="actionElumination_View">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Simulation View</string>
+   </property>
+   <property name="toolTip">
+    <string>View the simulation online</string>
+   </property>
+   <property name="statusTip">
+    <string>View the simulation online</string>
+   </property>
+  </action>
+  <action name="actionChange_into_COE">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icos/icons.qrc">
+     <normaloff>:/pic/change_coe.ico</normaloff>:/pic/change_coe.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Change into COE</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+C</string>
+   </property>
+  </action>
+  <action name="actionChange_into_MIF">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icos/icons.qrc">
+     <normaloff>:/pic/change_into_mif.ico</normaloff>:/pic/change_into_mif.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Change into MIF</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+M</string>
+   </property>
+  </action>
+  <action name="actionChange_into_Binary">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icos/icons.qrc">
+     <normaloff>:/pic/change_bin.ico</normaloff>:/pic/change_bin.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Change into Binary</string>
+   </property>
+   <property name="statusTip">
+    <string>Click to Change into Binary</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+B</string>
+   </property>
+  </action>
+  <action name="actionChange_into_Hex">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icos/icons.qrc">
+     <normaloff>:/pic/change_hex.ico</normaloff>:/pic/change_hex.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Change into Hex</string>
+   </property>
+   <property name="statusTip">
+    <string>Click to Change into Hex</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+H</string>
+   </property>
+  </action>
+  <action name="actionView_the_Eluminate">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icos/icons.qrc">
+     <normaloff>:/pic/connect.ico</normaloff>:/pic/connect.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Simulate online</string>
+   </property>
+   <property name="toolTip">
+    <string>Click to Simulate online</string>
+   </property>
+   <property name="statusTip">
+    <string>Click to Simulate online</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actioncut">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icos/icons.qrc">
+     <normaloff>:/pic/editcut.ico</normaloff>:/pic/editcut.ico</iconset>
+   </property>
+   <property name="text">
+    <string>cut</string>
+   </property>
+   <property name="toolTip">
+    <string>Cut text to the clipboard</string>
+   </property>
+   <property name="statusTip">
+    <string>Cut text to the clipboard</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionpaste">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icos/icons.qrc">
+     <normaloff>:/pic/editpaste.ico</normaloff>:/pic/editpaste.ico</iconset>
+   </property>
+   <property name="text">
+    <string>paste</string>
+   </property>
+   <property name="toolTip">
+    <string>Paste in the clipboard's tex</string>
+   </property>
+   <property name="statusTip">
+    <string>Paste in the clipboard's tex</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionindent">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icos/icons.qrc">
+     <normaloff>:/pic/editindent.ico</normaloff>:/pic/editindent.ico</iconset>
+   </property>
+   <property name="text">
+    <string>indent</string>
+   </property>
+   <property name="toolTip">
+    <string>Indent the current line or selection</string>
+   </property>
+   <property name="statusTip">
+    <string>Indent the current line or selection</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+[</string>
+   </property>
+  </action>
+  <action name="actionunindent">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icos/icons.qrc">
+     <normaloff>:/pic/editunindent.ico</normaloff>:/pic/editunindent.ico</iconset>
+   </property>
+   <property name="text">
+    <string>unindent</string>
+   </property>
+   <property name="toolTip">
+    <string>Unindent the current line or selection</string>
+   </property>
+   <property name="statusTip">
+    <string>Unindent the current line or selection</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+]</string>
+   </property>
+  </action>
+  <action name="actioncopy">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icos/icons.qrc">
+     <normaloff>:/pic/editcopy.ico</normaloff>:/pic/editcopy.ico</iconset>
+   </property>
+   <property name="text">
+    <string>copy</string>
+   </property>
+   <property name="toolTip">
+    <string>Copy text to the clipboard</string>
+   </property>
+   <property name="statusTip">
+    <string>Copy text to the clipboard</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionDownload_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icos/icons.qrc">
+     <normaloff>:/pic/download.ico</normaloff>:/pic/download.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Download</string>
+   </property>
+   <property name="toolTip">
+    <string>Click to Download into board</string>
+   </property>
+   <property name="statusTip">
+    <string>Click to Download into board</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+D</string>
+   </property>
+  </action>
+  <action name="actionchoose_workspace">
+   <property name="text">
+    <string>Choose workspace</string>
+   </property>
+  </action>
+  <action name="actionBuild_output">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Build output</string>
+   </property>
+  </action>
+  <action name="actionWindows">
+   <property name="text">
+    <string>Windows</string>
+   </property>
+  </action>
+  <action name="actionWindowsXP">
+   <property name="text">
+    <string>WindowsXP</string>
+   </property>
+  </action>
+  <action name="actionOpen_Project">
+   <property name="text">
+    <string>Open Project</string>
+   </property>
+  </action>
+  <action name="actionWindowsVista">
+   <property name="text">
+    <string>WindowsVista</string>
+   </property>
+  </action>
+  <action name="actionDark">
+   <property name="text">
+    <string>Dark</string>
+   </property>
+  </action>
+  <action name="actionFusion">
+   <property name="text">
+    <string>Fusion</string>
+   </property>
+  </action>
+  <action name="actionChoose_the_port">
+   <property name="text">
+    <string>Choose the port </string>
+   </property>
+  </action>
+  <action name="actionserial_monitor">
+   <property name="text">
+    <string>serial monitor</string>
+   </property>
+  </action>
+  <action name="actionnew_empty_project">
+   <property name="text">
+    <string>new empty project</string>
+   </property>
+  </action>
+  <action name="actionnew_gd32vf103_project">
+   <property name="text">
+    <string>new gd32vf103 project</string>
+   </property>
+  </action>
+  <action name="actionnew_prv332_project">
+   <property name="text">
+    <string>new prv332 project</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="icos/icons.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>actionQuit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>439</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,0 +1,7 @@
+D:/codes/python/Eve_ide
+1
+WindowsXP
+D:/codes/python/Eve_ide/t
+D:/codes/modual
+D:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin
+
