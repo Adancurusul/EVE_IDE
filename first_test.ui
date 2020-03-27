@@ -78,6 +78,7 @@
     <addaction name="action_project_files"/>
     <addaction name="actionElumination_View"/>
     <addaction name="actionBuild_output"/>
+    <addaction name="actionServer_data"/>
    </widget>
    <widget class="QMenu" name="menuActions">
     <property name="title">
@@ -106,7 +107,6 @@
     </widget>
     <addaction name="actionchoose_workspace"/>
     <addaction name="menuChoose_background_style"/>
-    <addaction name="actionChoose_the_port"/>
    </widget>
    <widget class="QMenu" name="menuProject">
     <property name="title">
@@ -227,12 +227,6 @@
      </item>
     </layout>
    </widget>
-  </widget>
-  <widget class="QDockWidget" name="dockWidget_2">
-   <attribute name="dockWidgetArea">
-    <number>2</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_12"/>
   </widget>
   <widget class="QDockWidget" name="dock_connection">
    <attribute name="dockWidgetArea">
@@ -629,6 +623,17 @@
   <action name="actionnew_prv332_project">
    <property name="text">
     <string>new prv332 project</string>
+   </property>
+  </action>
+  <action name="actionServer_data">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Server data</string>
    </property>
   </action>
  </widget>

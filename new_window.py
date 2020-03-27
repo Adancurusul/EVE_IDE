@@ -1,3 +1,4 @@
+#
 import sys
 import os
 from select_workspace import Ui_select
@@ -119,6 +120,9 @@ class lexer_c_getfunc:
                 else:  # 函数名
                     return str1
         return None
+
+
+
 
     def scanFunction(self):
         global g_allFuncList
@@ -345,29 +349,124 @@ class SciTextEdit(QsciScintilla):
         self.textChanged.connect(self.textChangedAction)
         # 给文档窗口添加右键菜单
         self.setContextMenuPolicy(Qt.CustomContextMenu)  #
-        #self.customContextMenuRequested.connect(self.RightMenu)
+        self.customContextMenuRequested.connect(self.RightMenu)
         # self.win.setWidget(self)
 
 
+
+    def getIncludeFile(self,st):
+        i = 8
+        j = 0
+        state = 1
+        ret_str = ""
+        while(1):
+            if(state):
+                if st[i]=='"':
+                    state = 0
+                    j = i+1
+            else:
+                if st[i]=='"':
+                    state = 1
+                    ret_str = st[j:i]
+                    break
+
+            i+=1
+        #print(ret_str)
+        return ret_str
+
+    def getFuncNameInLine(self,st):
+        l = len(st)
+        i = l-1
+        j= 0
+        k = 0
+        start = 0
+        end = 0
+        state = 1
+        ret_str = ""
+        while(1):
+            #print(j)
+            if(st[i]==')'):
+                j = 1
+                state+=1
+            elif(st[i]=='('):
+                state-=1
+            else :
+                pass
+            if state == 2 and j==1:
+
+                j+=1
+            if j==2 :
+                #print(st[end])
+                #print("state"+str(state))
+                if state  ==1:
+                    if k ==0:
+                        end = i
+                        i-=1
+                        k=1
+                    else:
+                        if ('z'>=st[i]  and st[i]>='a') or ('A'<=st[i] and 'Z'>=st[i]) or st[i]=='_' :
+                            pass
+                        else:
+
+                            start = i
+                            print(st[start])
+                            break
+            if i>=0:
+                i-=1
+            else:
+                break
+        ret_str = st[start:end]
+        #print("finish")
+        #print(ret_str)
+        ret_str = ret_str.lstrip()
+        #print(ret_str)
+        return ret_str
+
+
+
+
+
+        return ret_str
     def RightMenu(self):
+        #global string_for_jump_from_sci
+        now = 0
         line_num, index = self.getCursorPosition()
         text = self.text()
         # 0.获取光标所在行的全部字符
         str1 = text.splitlines(False)[line_num]
+
         if len(str1) != 0:
+            
             # 0.1 如果字符串有 ‘#in’ ，那么应该包含文件名
             if '#in' in str1:
-                self.jumpName = self.win.getIncludeFile(str1)
+                #print("include\n")
+                self.jumpName = self.getIncludeFile(str1)
+                now = 2
+                #print(self.jumpName)
             # 0.2 如果含有 字符 (  ,那么应该有函数名
             elif '(' in str1:
-                self.jumpName = self.win.getFuncNameInLine(str1)
+                #print("function")
+                self.jumpName = self.getFuncNameInLine(str1)
+                now = 1
+
         # 1.Jump to
         self.popMenu = QMenu()
         Jump2Function = QAction('Jump to ' + self.jumpName, self)
         self.popMenu.addAction(Jump2Function)
-        Jump2Function.triggered.connect(self.do_Jump2Function)
+        if now==1:
+            self.win.string_for_jump_from_sci = self.jumpName
+            #print(self.jumpName)
+            print("pppppp")
+            Jump2Function.triggered.connect(self.win.do_jump2function)
+        elif now ==2:
+            self.win.string_for_jump_from_sci = self.jumpName
+
+            Jump2Function.triggered.connect(self.win.do_jump2file)
         # setEnabled   isRedoAvailable  isUndoAvailable
         # 2.undo
+        makeAction = QAction('make', self)
+        makeAction.triggered.connect(do_make)
+        self.popMenu.addAction(makeAction)
         undoAction = QAction('Undo', self)
         undoAction.triggered.connect(self.undo)
         undoAction.setEnabled(self.isUndoAvailable())
@@ -467,6 +566,7 @@ class SciTextEdit(QsciScintilla):
                                     "Failed to save {0}".format(QFileInfo(self.filename).fileName()))
 
 
+
 class select_work(QMainWindow, Ui_select):
     def __init__(self):
         global open_by_main
@@ -559,10 +659,15 @@ class main_win(QMainWindow, Ui_MainWindow):
         self.serial_info.setReadOnly(True)
         #self.loadFile(self.filename)
         # 1.3创建信息输出视图
-        self.dock_serial = QDockWidget('Serial monitor', self)
+        self.dock_serial = QDockWidget('Server data', self)
         # self.dock_connection.setText("connnnn")
         # self.dock_serial.setMinimumSize
         self.dock_serial.setWidget(self.serial_info)
+        self.serial_info.setPlainText("connecting to the Server....\n   trying to connect adancurusul.picp.net......\n"
+                                      "connected ,you can communicate with server\n ")
+        self.serial_info
+
+        #self.serial_info.clear()
         self.dockBuilt = QDockWidget('Built output', self)
         # self.dockBuilt.setFearures(DockWidgetClosable)
         self.dockBuilt.setFeatures(
@@ -597,12 +702,16 @@ class logic_main(main_win):
     Jump2Func_Signal = pyqtSignal(str)
     Jump2IncludeFile_Signal = pyqtSignal(str)
     def __init__(self):
+        #global string_for_jump_from_sci
+        self.project_now=""
+        self.string_for_jump_from_sci = ""
         super(logic_main, self).__init__()
         self.st_process=0
         self.project_path = read_line(configure_file, 4)[:-1]
         #print(self.project_path)
         self.project_path = self.project_path.split(';')#propath
         print(self.project_path)
+
         l = []
         for path in self.project_path:#判断路径是否存在
 
@@ -624,7 +733,8 @@ class logic_main(main_win):
         self.project_path = l
         self.path_name_list = []#propath名字
         self.project_path_dict = {}
-        self.file_fuction_dict = {}#完整路径
+        self.project_file_function_dict = {}#pro +filename+func+line
+        self.file_fuction_dict = {}#完整路径和function名字filename+func+line
         self.function_list  = []#方便分辨是否为function
         self.opened_file_list = []#store the opened files已经打开的
         self.tree_tab_connection_dict = {}#用于每次刷新tree的时候连接到相应的
@@ -655,6 +765,47 @@ class logic_main(main_win):
         self.view_dock_closeEvent()  # 重写dock关闭函数
         # SciTextEdit()
 
+    def do_jump2file(self):
+        filename_to_jump = self.string_for_jump_from_sci
+        #print(filename_to_jump)
+        p_now = self.project_now
+        #print(self.project_file_path_dict)
+        open_fullname = self.project_file_path_dict[p_now][filename_to_jump]
+        #self.reset_tree(open_fullname)
+        self.open_qsci(open_fullname)
+
+
+        #now   = self.tabWidget.currentWidget()
+        #now.tree = self.tree.currentItem()
+
+
+
+    def do_jump2function(self):
+        #print("okk")
+        functionname_to_jump = self.string_for_jump_from_sci
+        p_now = self.project_now
+        for i in self.project_path:
+            if i.split('/')[-1] ==p_now:
+                p_now = i
+        #p_now = +'/'+p_now
+        #print(p_now)
+        print(self.project_file_function_dict)
+        for key in self.project_file_function_dict[p_now].keys():
+            #print(key)
+            for name in self.project_file_function_dict[p_now][key].keys():
+               #print(name)
+               if name ==functionname_to_jump:
+                    fname_now = key
+                    line =  self.project_file_function_dict[p_now][key][name]
+                    print(fname_now)
+        #self.change_tab(0)
+        self.reset_tree(fname_now)
+        self.open_qsci(fname_now, self.new_current_tree)
+
+        now = self.tabWidget.currentWidget()
+        now.setCursorPosition(line,0)
+
+        #print(functionname_to_jump)
     def dis_enable(self,state):
         #print(self)
         #print(str(state)+"this is state")
@@ -729,6 +880,90 @@ class logic_main(main_win):
     def view_dock_closeEvent(self):  # 当dock关闭时触发
         self.dockWidget_tree.closeEvent = self.dock_tree_close
         self.dockBuilt.closeEvent = self.dockBuilt_close
+        self.dock_serial.closeEvent = self.dock_serial_close
+
+    def reset_tree(self,fna):
+        self.tree.clear()
+        # path = read_line(configure_file, 1)[:-1]
+        for path in self.project_path:
+            # print("+" * 10 + path)
+            dirs = file_name(path)
+            # print(dirs)
+            fileInfo = QFileInfo(path)
+            fileIcon = QFileIconProvider()
+            icon = QIcon(fileIcon.icon(fileInfo))
+            root = QTreeWidgetItem(self.tree)
+            root.setText(0, path.split('/')[-1])
+            root.setIcon(0, QIcon(icon))
+            #self.f_func_dict = {}
+            self.reCreateTree(dirs, root, path,fna)
+            #self.project_file_function_dict.setdefault(path, self.f_func_dict)
+
+            # print(self.project_file_function_dict)
+            # self.tree.expandAll()#全部展开
+            # self.setCentralWidget(self.tree)
+            # self.tree.clicked.connect(self.onTreeClicked)
+            QApplication.processEvents()
+
+    def reCreateTree(self, dirs, root, path,fna):
+
+        for i in dirs:
+            path_new = path + '/' + i
+
+            if os.path.isdir(path_new):
+                # print('this is path'+i+'ok:'+path_new)
+
+                fileInfo = QFileInfo(path_new)
+                fileIcon = QFileIconProvider()
+                icon = QIcon(fileIcon.icon(fileInfo))
+                child = QTreeWidgetItem(root)
+                child.setText(0, i)
+                child.setIcon(0, QIcon(icon))
+                dirs_new = file_name(path_new)
+                self.reCreateTree(dirs_new, child, path_new,fna)
+            else:
+                # print(path_new+"okkkk")
+
+                fileInfo = QFileInfo(path_new)
+
+                fileIcon = QFileIconProvider()
+                icon = QIcon(fileIcon.icon(fileInfo))
+                child = QTreeWidgetItem(root)
+                child.setExpanded(True)
+                child.setText(0, i)
+                child.setIcon(0, QIcon(icon))
+                if fna ==path_new:
+                    self.new_current_tree = child
+                # print(self.tree_tab_connection_dict)
+                if path_new in self.tree_tab_connection_dict:
+                    textEdit = self.tree_tab_connection_dict[path_new]
+                    textEdit.tree = child
+                    print("connected")
+                # print(new_project)
+                try:
+                    c_getfunc = lexer_c_getfunc(path_new)
+                    _fname, _dict = c_getfunc.lexer_analysis()
+                    # print(_fname)
+                    # print(_dict)
+                    _path = path.split('/')[-1]
+                    # fname = self.project_file_path_dict[_path][_fname]
+                    # print(fname)
+                    # print("*")
+                    # print(path_new)
+                    #self.file_fuction_dict.setdefault(path_new, _dict)
+                    #self.f_func_dict.setdefault(path_new, _dict)
+                    funcs = list(_dict.keys())
+                    # print(self.file_fuction_dict)
+                    for func in funcs:
+                        #self.function_list.append(func)
+                        # print(self.function_list)
+                        subsubchild = QTreeWidgetItem(child)
+                        subsubchild.setText(0, func)
+                        subsubchild.setIcon(0, QIcon("./fuc.ico"))
+                except:
+                    pass
+
+
 
     def set_tree(self):
         self.tree.clear()
@@ -743,13 +978,20 @@ class logic_main(main_win):
             root = QTreeWidgetItem(self.tree)
             root.setText(0, path.split('/')[-1])
             root.setIcon(0, QIcon(icon))
+
+            self.f_func_dict = {}
+            #print(dirs)
             self.CreateTree(dirs, root, path)
+            self.project_file_function_dict.setdefault(path, self.f_func_dict)
+
+            #print(self.project_file_function_dict)
             #self.tree.expandAll()#全部展开
             # self.setCentralWidget(self.tree)
             # self.tree.clicked.connect(self.onTreeClicked)
             QApplication.processEvents()
 
     def CreateTree(self, dirs, root, path):
+
 
         for i in dirs:
             path_new = path + '/' + i
@@ -777,6 +1019,7 @@ class logic_main(main_win):
                 child.setExpanded(True)
                 child.setText(0, i)
                 child.setIcon(0, QIcon(icon))
+                #print(child)
                 #print(self.tree_tab_connection_dict)
                 if path_new in self.tree_tab_connection_dict:
                     textEdit = self.tree_tab_connection_dict[path_new]
@@ -786,11 +1029,15 @@ class logic_main(main_win):
                 try:
                     c_getfunc = lexer_c_getfunc(path_new)
                     _fname, _dict = c_getfunc.lexer_analysis()
+                    #print(_fname)
+                    #print(_dict)
                     _path = path.split('/')[-1]
                     #fname = self.project_file_path_dict[_path][_fname]
                     #print(fname)
                     #print("*")
+                    #print(path_new)
                     self.file_fuction_dict.setdefault(path_new, _dict)
+                    self.f_func_dict.setdefault(path_new,_dict)
                     funcs = list(_dict.keys())
                     #print(self.file_fuction_dict)
                     for func in funcs:
@@ -800,9 +1047,10 @@ class logic_main(main_win):
                         subsubchild.setText(0, func)
                         subsubchild.setIcon(0, QIcon("./fuc.ico"))
 
+
+
                 except:
                     pass
-
 
     '''
                     c_getfunc = lexer_c_getfunc(path_new)
@@ -834,6 +1082,7 @@ class logic_main(main_win):
         self.menuActions.triggered[QAction].connect(self.do_action_menu)
         self.action_project_files.triggered.connect(partial(self.view_triggered, "project_files"))
         self.actionBuild_output.triggered.connect(partial(self.view_triggered, "Build_output"))
+        self.actionServer_data.triggered.connect(partial(self.view_triggered,"Server_data"))
         self.actionWindows.triggered.connect(app.slot_setStyle)
         self.actionWindowsXP.triggered.connect(app.slot_setStyle)
         self.actionWindowsVista.triggered.connect(app.slot_setStyle)
@@ -874,11 +1123,25 @@ class logic_main(main_win):
         if textEdit and textEdit.tree:
             if textEdit.tree.text(0) in self.function_list:
                 textEdit.tree = textEdit.tree.parent()
+
             #brush_red = QBrush(Qt.red)
             #brush = QBrush(Qt.color0)
             #textEdit.tree.setBackground(0, brush)
             self.tree.setCurrentItem(textEdit.tree)
             #self.treeWidget.setCurrentItem(item)
+            pa = textEdit.tree.parent()
+            while (1):
+                if pa.text(0):
+                    if pa.text(0) in self.project_file_path_dict.keys():
+                        pro_path = pa.text(0)
+                        #filepath = self.project_file_path_dict[pa.text(0)][it]
+                        break
+                    else:
+                        pa = pa.parent()
+                else:
+                    break
+            self.project_now = pro_path
+            #print("pro_pathnow:"+self.project_now)
 
 
 
@@ -1141,12 +1404,14 @@ class logic_main(main_win):
             while(1):
                 if pa.text(0):
                     if pa.text(0) in self.project_file_path_dict.keys():
+                        pro_path = pa.text(0)
                         filepath = self.project_file_path_dict[pa.text(0)][it]
                         break
                     else:
                         pa = pa.parent()
                 else:
                     break
+            self.project_now = pro_path
             self.open_qsci(filepath,item)
             #print("key=%s " % (item.text(0)))
         elif item.text(0) in self.function_list :
@@ -1158,12 +1423,14 @@ class logic_main(main_win):
                 while (1):
                     if pa.text(0):
                         if pa.text(0) in self.project_file_path_dict.keys():
+                            pro_path = pa.text(0)
                             filepath = self.project_file_path_dict[pa.text(0)][p.text(0)]
                             break
                         else:
                             pa = pa.parent()
                     else:
                         break
+                self.project_now  = pro_path
                 self.open_qsci(filepath,item)
                 textEdit = self.tabWidget.currentWidget()
                 filepath=filepath.replace('\\','/')
@@ -1284,6 +1551,11 @@ class logic_main(main_win):
                 self.dockWidget_tree.show()
             else:
                 self.dockWidget_tree.hide()
+        if name =="Server_data":
+            if state:
+                self.dock_serial.show()
+            else :
+                self.dock_serial.hide()
     '''
     
     def build_output(self):
@@ -1302,8 +1574,11 @@ class logic_main(main_win):
     '''
 
     def do_action_menu(self,which_action):
-        print(which_action.text())
-        text = which_action.text()
+        try:
+            print(which_action.text())
+            text = which_action.text()
+        except:
+            text = "from editor"
         textEdit = self.tabWidget.currentWidget()
         textEdit.save()
         current_tree = textEdit.tree
@@ -1390,7 +1665,10 @@ class logic_main(main_win):
             pass
         elif text == 'Change into MIF':
             pass
+        else:
+            pass
         self.set_tree()
+        self.change_tab(0)
 
 
 
@@ -1457,7 +1735,8 @@ class logic_main(main_win):
         #print(p)
         print("dock_closed")
         self.action_project_files.setChecked(0)
-
+    def dock_serial_close(self,p):
+        self.actionServer_data.setChecked(0)
 
 
     def file_open(self,name):

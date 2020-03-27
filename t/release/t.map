@@ -871,8 +871,6 @@ Discarded input sections
                 0x0000000000000000       0xb4 ./Peripherals/Source/gd32vf103_gpio.o
  .text.gpio_afio_deinit
                 0x0000000000000000       0x28 ./Peripherals/Source/gd32vf103_gpio.o
- .text.gpio_init
-                0x0000000000000000       0xd4 ./Peripherals/Source/gd32vf103_gpio.o
  .text.gpio_bit_set
                 0x0000000000000000        0x8 ./Peripherals/Source/gd32vf103_gpio.o
  .text.gpio_bit_reset
@@ -901,18 +899,6 @@ Discarded input sections
                 0x0000000000000000       0x14 ./Peripherals/Source/gd32vf103_gpio.o
  .text.gpio_pin_lock
                 0x0000000000000000       0x20 ./Peripherals/Source/gd32vf103_gpio.o
- .debug_info    0x0000000000000000      0x6ab ./Peripherals/Source/gd32vf103_gpio.o
- .debug_abbrev  0x0000000000000000      0x212 ./Peripherals/Source/gd32vf103_gpio.o
- .debug_loc     0x0000000000000000      0x401 ./Peripherals/Source/gd32vf103_gpio.o
- .debug_aranges
-                0x0000000000000000       0xa0 ./Peripherals/Source/gd32vf103_gpio.o
- .debug_ranges  0x0000000000000000       0x90 ./Peripherals/Source/gd32vf103_gpio.o
- .debug_line    0x0000000000000000      0xb20 ./Peripherals/Source/gd32vf103_gpio.o
- .debug_str     0x0000000000000000      0x5a1 ./Peripherals/Source/gd32vf103_gpio.o
- .comment       0x0000000000000000       0x12 ./Peripherals/Source/gd32vf103_gpio.o
- .debug_frame   0x0000000000000000      0x144 ./Peripherals/Source/gd32vf103_gpio.o
- .riscv.attributes
-                0x0000000000000000       0x1c ./Peripherals/Source/gd32vf103_gpio.o
  .text          0x0000000000000000        0x0 ./Peripherals/Source/gd32vf103_i2c.o
  .data          0x0000000000000000        0x0 ./Peripherals/Source/gd32vf103_i2c.o
  .bss           0x0000000000000000        0x0 ./Peripherals/Source/gd32vf103_i2c.o
@@ -1873,7 +1859,7 @@ END GROUP
 .ialign         0x0000000008000250        0x0
                 [!provide]                        PROVIDE (_ilm = .)
 
-.text           0x0000000008000280      0xb3c
+.text           0x0000000008000280      0xc10
  *(.rodata .rodata.*)
  .rodata.write_hex.str1.4
                 0x0000000008000280        0x3 ./RISCV/stubs/write_hex.o
@@ -1891,26 +1877,26 @@ END GROUP
  *(.text.unlikely .text.unlikely.*)
  *(.text.startup .text.startup.*)
  .text.startup.main
-                0x00000000080002b4        0x8 ./App/main.o
+                0x00000000080002b4       0x2c ./App/main.o
                 0x00000000080002b4                main
  *(.text .text.*)
  .text.eclic_init
-                0x00000000080002bc       0x30 ./RISCV/drivers/n200_func.o
-                0x00000000080002bc                eclic_init
+                0x00000000080002e0       0x30 ./RISCV/drivers/n200_func.o
+                0x00000000080002e0                eclic_init
  .text.eclic_mode_enable
-                0x00000000080002ec       0x14 ./RISCV/drivers/n200_func.o
-                0x00000000080002ec                eclic_mode_enable
+                0x0000000008000310       0x14 ./RISCV/drivers/n200_func.o
+                0x0000000008000310                eclic_mode_enable
  .text._put_char
-                0x0000000008000300       0x50 ./RISCV/stubs/write.o
-                0x0000000008000300                _put_char
- .text._write   0x0000000008000350       0x6c ./RISCV/stubs/write.o
-                0x0000000008000350                _write
+                0x0000000008000324       0x50 ./RISCV/stubs/write.o
+                0x0000000008000324                _put_char
+ .text._write   0x0000000008000374       0x6c ./RISCV/stubs/write.o
+                0x0000000008000374                _write
  .text.write_hex
-                0x00000000080003bc       0xb0 ./RISCV/stubs/write_hex.o
-                0x00000000080003bc                write_hex
- .text._exit    0x000000000800046c       0x58 ./RISCV/stubs/_exit.o
-                0x000000000800046c                _exit
- *fill*         0x00000000080004c4       0x3c 
+                0x00000000080003e0       0xb0 ./RISCV/stubs/write_hex.o
+                0x00000000080003e0                write_hex
+ .text._exit    0x0000000008000490       0x58 ./RISCV/stubs/_exit.o
+                0x0000000008000490                _exit
+ *fill*         0x00000000080004e8       0x18 
  .text.trap     0x0000000008000500      0x100 ./RISCV/env_Eclipse/entry.o
                 0x0000000008000500                trap_entry
  .text.irq      0x0000000008000600       0xc0 ./RISCV/env_Eclipse/entry.o
@@ -1928,86 +1914,89 @@ END GROUP
  .text.SystemInit
                 0x0000000008000748      0x1b0 ./Peripherals/system_gd32vf103.o
                 0x0000000008000748                SystemInit
+ .text.gpio_init
+                0x00000000080008f8       0xd4 ./Peripherals/Source/gd32vf103_gpio.o
+                0x00000000080008f8                gpio_init
  .text.usart_data_transmit
-                0x00000000080008f8        0xc ./Peripherals/Source/gd32vf103_usart.o
-                0x00000000080008f8                usart_data_transmit
+                0x00000000080009cc        0xc ./Peripherals/Source/gd32vf103_usart.o
+                0x00000000080009cc                usart_data_transmit
  .text.usart_flag_get
-                0x0000000008000904       0x1c ./Peripherals/Source/gd32vf103_usart.o
-                0x0000000008000904                usart_flag_get
- .text.atexit   0x0000000008000920       0x14 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-atexit.o)
-                0x0000000008000920                atexit
- .text.exit     0x0000000008000934       0x40 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-exit.o)
-                0x0000000008000934                exit
+                0x00000000080009d8       0x1c ./Peripherals/Source/gd32vf103_usart.o
+                0x00000000080009d8                usart_flag_get
+ .text.atexit   0x00000000080009f4       0x14 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-atexit.o)
+                0x00000000080009f4                atexit
+ .text.exit     0x0000000008000a08       0x40 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-exit.o)
+                0x0000000008000a08                exit
  .text.__libc_fini_array
-                0x0000000008000974       0x5c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-fini.o)
-                0x0000000008000974                __libc_fini_array
+                0x0000000008000a48       0x5c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-fini.o)
+                0x0000000008000a48                __libc_fini_array
  .text.__libc_init_array
-                0x00000000080009d0       0xa8 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-init.o)
-                0x00000000080009d0                __libc_init_array
- .text.memcpy   0x0000000008000a78      0x104 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-memcpy.o)
-                0x0000000008000a78                memcpy
- .text.write    0x0000000008000b7c       0x18 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-syswrite.o)
-                0x0000000008000b7c                write
+                0x0000000008000aa4       0xa8 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-init.o)
+                0x0000000008000aa4                __libc_init_array
+ .text.memcpy   0x0000000008000b4c      0x104 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-memcpy.o)
+                0x0000000008000b4c                memcpy
+ .text.write    0x0000000008000c50       0x18 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-syswrite.o)
+                0x0000000008000c50                write
  .text._write_r
-                0x0000000008000b94       0x48 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-writer.o)
-                0x0000000008000b94                _write_r
+                0x0000000008000c68       0x48 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-writer.o)
+                0x0000000008000c68                _write_r
  .text.__register_exitproc
-                0x0000000008000bdc       0xac d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-__atexit.o)
-                0x0000000008000bdc                __register_exitproc
+                0x0000000008000cb0       0xac d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-__atexit.o)
+                0x0000000008000cb0                __register_exitproc
  .text.__call_exitprocs
-                0x0000000008000c88      0x134 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-__call_atexit.o)
-                0x0000000008000c88                __call_exitprocs
+                0x0000000008000d5c      0x134 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-__call_atexit.o)
+                0x0000000008000d5c                __call_exitprocs
  *(.gnu.linkonce.t.*)
 
 .sdata2._global_impure_ptr
-                0x0000000008000dbc        0x4
+                0x0000000008000e90        0x4
  .sdata2._global_impure_ptr
-                0x0000000008000dbc        0x4 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-impure.o)
-                0x0000000008000dbc                _global_impure_ptr
+                0x0000000008000e90        0x4 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-impure.o)
+                0x0000000008000e90                _global_impure_ptr
 
-.rela.dyn       0x0000000008000dc0        0x0
+.rela.dyn       0x0000000008000e94        0x0
  .rela.text._write
-                0x0000000008000dc0        0x0 ./RISCV/drivers/n200_func.o
+                0x0000000008000e94        0x0 ./RISCV/drivers/n200_func.o
  .rela.text.trap
-                0x0000000008000dc0        0x0 ./RISCV/drivers/n200_func.o
+                0x0000000008000e94        0x0 ./RISCV/drivers/n200_func.o
  .rela.text.handle_trap
-                0x0000000008000dc0        0x0 ./RISCV/drivers/n200_func.o
- .rela.init     0x0000000008000dc0        0x0 ./RISCV/drivers/n200_func.o
+                0x0000000008000e94        0x0 ./RISCV/drivers/n200_func.o
+ .rela.init     0x0000000008000e94        0x0 ./RISCV/drivers/n200_func.o
  .rela.text.__libc_fini_array
-                0x0000000008000dc0        0x0 ./RISCV/drivers/n200_func.o
+                0x0000000008000e94        0x0 ./RISCV/drivers/n200_func.o
  .rela.data.impure_data
-                0x0000000008000dc0        0x0 ./RISCV/drivers/n200_func.o
+                0x0000000008000e94        0x0 ./RISCV/drivers/n200_func.o
  .rela.text.__libc_init_array
-                0x0000000008000dc0        0x0 ./RISCV/drivers/n200_func.o
+                0x0000000008000e94        0x0 ./RISCV/drivers/n200_func.o
  .rela.text._write_r
-                0x0000000008000dc0        0x0 ./RISCV/drivers/n200_func.o
+                0x0000000008000e94        0x0 ./RISCV/drivers/n200_func.o
  .rela.text.__register_exitproc
-                0x0000000008000dc0        0x0 ./RISCV/drivers/n200_func.o
+                0x0000000008000e94        0x0 ./RISCV/drivers/n200_func.o
 
 .fini
  *(SORT_NONE(.fini))
-                0x0000000008000dc0                . = ALIGN (0x4)
+                0x0000000008000e94                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (__etext = .)
                 [!provide]                        PROVIDE (_etext = .)
                 [!provide]                        PROVIDE (etext = .)
                 [!provide]                        PROVIDE (_eilm = .)
 
-.preinit_array  0x0000000008000dc0        0x0
-                0x0000000008000dc0                PROVIDE (__preinit_array_start = .)
+.preinit_array  0x0000000008000e94        0x0
+                0x0000000008000e94                PROVIDE (__preinit_array_start = .)
  *(.preinit_array)
-                0x0000000008000dc0                PROVIDE (__preinit_array_end = .)
+                0x0000000008000e94                PROVIDE (__preinit_array_end = .)
 
-.init_array     0x0000000008000dc0        0x0
-                0x0000000008000dc0                PROVIDE (__init_array_start = .)
+.init_array     0x0000000008000e94        0x0
+                0x0000000008000e94                PROVIDE (__init_array_start = .)
  *(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*))
  *(.init_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .ctors)
-                0x0000000008000dc0                PROVIDE (__init_array_end = .)
+                0x0000000008000e94                PROVIDE (__init_array_end = .)
 
-.fini_array     0x0000000008000dc0        0x0
-                0x0000000008000dc0                PROVIDE (__fini_array_start = .)
+.fini_array     0x0000000008000e94        0x0
+                0x0000000008000e94                PROVIDE (__fini_array_start = .)
  *(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*))
  *(.fini_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .dtors)
-                0x0000000008000dc0                PROVIDE (__fini_array_end = .)
+                0x0000000008000e94                PROVIDE (__fini_array_end = .)
 
 .ctors
  *crtbegin.o(.ctors)
@@ -2022,18 +2011,18 @@ END GROUP
  *(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
  *(SORT_BY_NAME(.dtors.*))
  *(.dtors)
-                0x0000000008000dc0                . = ALIGN (0x4)
+                0x0000000008000e94                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_eilm = .)
 
-.lalign         0x0000000008000dc0        0x0
-                0x0000000008000dc0                . = ALIGN (0x4)
-                0x0000000008000dc0                PROVIDE (_data_lma = .)
+.lalign         0x0000000008000e94        0x0
+                0x0000000008000e94                . = ALIGN (0x4)
+                0x0000000008000e94                PROVIDE (_data_lma = .)
 
-.dalign         0x0000000020000000        0x0 load address 0x0000000008000dc0
+.dalign         0x0000000020000000        0x0 load address 0x0000000008000e94
                 0x0000000020000000                . = ALIGN (0x4)
                 0x0000000020000000                PROVIDE (_data = .)
 
-.data           0x0000000020000000       0x68 load address 0x0000000008000dc0
+.data           0x0000000020000000       0x68 load address 0x0000000008000e94
  *(.rdata)
  *(.gnu.linkonce.r.*)
  *(.data .data.*)
@@ -2085,7 +2074,7 @@ END GROUP
                 0x0000000020008000                PROVIDE (_sp = .)
 OUTPUT(t.elf elf32-littleriscv)
 
-.debug_info     0x0000000000000000     0x5420
+.debug_info     0x0000000000000000     0x5b11
  .debug_info    0x0000000000000000     0x171d ./RISCV/drivers/n200_func.o
  .debug_info    0x000000000000171d      0xbc5 ./RISCV/stubs/write.o
  .debug_info    0x00000000000022e2      0x1a4 ./RISCV/stubs/write_hex.o
@@ -2095,10 +2084,11 @@ OUTPUT(t.elf elf32-littleriscv)
  .debug_info    0x00000000000030b2      0xbaf ./RISCV/env_Eclipse/init.o
  .debug_info    0x0000000000003c61       0x26 ./RISCV/env_Eclipse/start.o
  .debug_info    0x0000000000003c87      0x1e9 ./Peripherals/system_gd32vf103.o
- .debug_info    0x0000000000003e70      0xc09 ./Peripherals/Source/gd32vf103_usart.o
- .debug_info    0x0000000000004a79      0x9a7 ./App/main.o
+ .debug_info    0x0000000000003e70      0x6ab ./Peripherals/Source/gd32vf103_gpio.o
+ .debug_info    0x000000000000451b      0xc09 ./Peripherals/Source/gd32vf103_usart.o
+ .debug_info    0x0000000000005124      0x9ed ./App/main.o
 
-.debug_abbrev   0x0000000000000000     0x13b3
+.debug_abbrev   0x0000000000000000     0x15e5
  .debug_abbrev  0x0000000000000000      0x535 ./RISCV/drivers/n200_func.o
  .debug_abbrev  0x0000000000000535      0x2b9 ./RISCV/stubs/write.o
  .debug_abbrev  0x00000000000007ee       0xf7 ./RISCV/stubs/write_hex.o
@@ -2108,19 +2098,21 @@ OUTPUT(t.elf elf32-littleriscv)
  .debug_abbrev  0x0000000000000c32      0x24a ./RISCV/env_Eclipse/init.o
  .debug_abbrev  0x0000000000000e7c       0x14 ./RISCV/env_Eclipse/start.o
  .debug_abbrev  0x0000000000000e90       0xf1 ./Peripherals/system_gd32vf103.o
- .debug_abbrev  0x0000000000000f81      0x1f1 ./Peripherals/Source/gd32vf103_usart.o
- .debug_abbrev  0x0000000000001172      0x241 ./App/main.o
+ .debug_abbrev  0x0000000000000f81      0x212 ./Peripherals/Source/gd32vf103_gpio.o
+ .debug_abbrev  0x0000000000001193      0x1f1 ./Peripherals/Source/gd32vf103_usart.o
+ .debug_abbrev  0x0000000000001384      0x261 ./App/main.o
 
-.debug_loc      0x0000000000000000     0x1294
+.debug_loc      0x0000000000000000     0x1695
  .debug_loc     0x0000000000000000      0x948 ./RISCV/drivers/n200_func.o
  .debug_loc     0x0000000000000948      0x150 ./RISCV/stubs/write.o
  .debug_loc     0x0000000000000a98       0xc9 ./RISCV/stubs/write_hex.o
  .debug_loc     0x0000000000000b61       0x1e ./RISCV/stubs/_exit.o
  .debug_loc     0x0000000000000b7f       0x3f ./RISCV/env_Eclipse/handlers.o
  .debug_loc     0x0000000000000bbe      0x1b2 ./Peripherals/system_gd32vf103.o
- .debug_loc     0x0000000000000d70      0x524 ./Peripherals/Source/gd32vf103_usart.o
+ .debug_loc     0x0000000000000d70      0x401 ./Peripherals/Source/gd32vf103_gpio.o
+ .debug_loc     0x0000000000001171      0x524 ./Peripherals/Source/gd32vf103_usart.o
 
-.debug_aranges  0x0000000000000000      0x408
+.debug_aranges  0x0000000000000000      0x4a8
  .debug_aranges
                 0x0000000000000000      0x140 ./RISCV/drivers/n200_func.o
  .debug_aranges
@@ -2140,11 +2132,13 @@ OUTPUT(t.elf elf32-littleriscv)
  .debug_aranges
                 0x0000000000000248       0x28 ./Peripherals/system_gd32vf103.o
  .debug_aranges
-                0x0000000000000270      0x170 ./Peripherals/Source/gd32vf103_usart.o
+                0x0000000000000270       0xa0 ./Peripherals/Source/gd32vf103_gpio.o
  .debug_aranges
-                0x00000000000003e0       0x28 ./App/main.o
+                0x0000000000000310      0x170 ./Peripherals/Source/gd32vf103_usart.o
+ .debug_aranges
+                0x0000000000000480       0x28 ./App/main.o
 
-.debug_ranges   0x0000000000000000      0x4a8
+.debug_ranges   0x0000000000000000      0x538
  .debug_ranges  0x0000000000000000      0x248 ./RISCV/drivers/n200_func.o
  .debug_ranges  0x0000000000000248       0x40 ./RISCV/stubs/write.o
  .debug_ranges  0x0000000000000288       0x30 ./RISCV/stubs/write_hex.o
@@ -2153,10 +2147,11 @@ OUTPUT(t.elf elf32-littleriscv)
  .debug_ranges  0x00000000000002e8       0x18 ./RISCV/env_Eclipse/handlers.o
  .debug_ranges  0x0000000000000300       0x18 ./RISCV/env_Eclipse/init.o
  .debug_ranges  0x0000000000000318       0x18 ./Peripherals/system_gd32vf103.o
- .debug_ranges  0x0000000000000330      0x160 ./Peripherals/Source/gd32vf103_usart.o
- .debug_ranges  0x0000000000000490       0x18 ./App/main.o
+ .debug_ranges  0x0000000000000330       0x90 ./Peripherals/Source/gd32vf103_gpio.o
+ .debug_ranges  0x00000000000003c0      0x160 ./Peripherals/Source/gd32vf103_usart.o
+ .debug_ranges  0x0000000000000520       0x18 ./App/main.o
 
-.debug_line     0x0000000000000000     0x38b6
+.debug_line     0x0000000000000000     0x4433
  .debug_line    0x0000000000000000     0x12e6 ./RISCV/drivers/n200_func.o
  .debug_line    0x00000000000012e6      0x447 ./RISCV/stubs/write.o
  .debug_line    0x000000000000172d      0x249 ./RISCV/stubs/write_hex.o
@@ -2166,32 +2161,35 @@ OUTPUT(t.elf elf32-littleriscv)
  .debug_line    0x0000000000001dda      0x28f ./RISCV/env_Eclipse/init.o
  .debug_line    0x0000000000002069      0x175 ./RISCV/env_Eclipse/start.o
  .debug_line    0x00000000000021de      0x6db ./Peripherals/system_gd32vf103.o
- .debug_line    0x00000000000028b9      0xdde ./Peripherals/Source/gd32vf103_usart.o
- .debug_line    0x0000000000003697      0x21f ./App/main.o
+ .debug_line    0x00000000000028b9      0xb20 ./Peripherals/Source/gd32vf103_gpio.o
+ .debug_line    0x00000000000033d9      0xdde ./Peripherals/Source/gd32vf103_usart.o
+ .debug_line    0x00000000000041b7      0x27c ./App/main.o
 
-.debug_str      0x0000000000000000     0x1693
- .debug_str     0x0000000000000000      0x8d9 ./RISCV/drivers/n200_func.o
+.debug_str      0x0000000000000000     0x187c
+ .debug_str     0x0000000000000000      0x8cc ./RISCV/drivers/n200_func.o
                                         0x991 (size before relaxing)
- .debug_str     0x00000000000008d9      0x11b ./RISCV/stubs/write.o
+ .debug_str     0x00000000000008cc      0x11b ./RISCV/stubs/write.o
                                         0x6ea (size before relaxing)
- .debug_str     0x00000000000009f4       0x33 ./RISCV/stubs/write_hex.o
+ .debug_str     0x00000000000009e7       0x33 ./RISCV/stubs/write_hex.o
                                         0x1ed (size before relaxing)
- .debug_str     0x0000000000000a27       0x3b ./RISCV/stubs/_exit.o
+ .debug_str     0x0000000000000a1a       0x3b ./RISCV/stubs/_exit.o
                                         0x1f4 (size before relaxing)
- .debug_str     0x0000000000000a62       0x29 ./RISCV/env_Eclipse/entry.o
+ .debug_str     0x0000000000000a55       0x29 ./RISCV/env_Eclipse/entry.o
                                          0x4b (size before relaxing)
- .debug_str     0x0000000000000a8b       0x4a ./RISCV/env_Eclipse/handlers.o
+ .debug_str     0x0000000000000a7e       0x4a ./RISCV/env_Eclipse/handlers.o
                                         0x5ea (size before relaxing)
- .debug_str     0x0000000000000ad5      0x3e4 ./RISCV/env_Eclipse/init.o
+ .debug_str     0x0000000000000ac8      0x3e4 ./RISCV/env_Eclipse/init.o
                                         0x9ba (size before relaxing)
- .debug_str     0x0000000000000eb9       0x1d ./RISCV/env_Eclipse/start.o
+ .debug_str     0x0000000000000eac       0x1d ./RISCV/env_Eclipse/start.o
                                          0x4b (size before relaxing)
- .debug_str     0x0000000000000ed6       0xb9 ./Peripherals/system_gd32vf103.o
+ .debug_str     0x0000000000000ec9       0xb9 ./Peripherals/system_gd32vf103.o
                                         0x273 (size before relaxing)
- .debug_str     0x0000000000000f8f      0x6d5 ./Peripherals/Source/gd32vf103_usart.o
+ .debug_str     0x0000000000000f82      0x3cb ./Peripherals/Source/gd32vf103_gpio.o
+                                        0x5a1 (size before relaxing)
+ .debug_str     0x000000000000134d      0x500 ./Peripherals/Source/gd32vf103_usart.o
                                         0x961 (size before relaxing)
- .debug_str     0x0000000000001664       0x2f ./App/main.o
-                                        0x5b0 (size before relaxing)
+ .debug_str     0x000000000000184d       0x2f ./App/main.o
+                                        0x5cc (size before relaxing)
 
 .comment        0x0000000000000000       0x11
  .comment       0x0000000000000000       0x11 ./RISCV/drivers/n200_func.o
@@ -2202,6 +2200,7 @@ OUTPUT(t.elf elf32-littleriscv)
  .comment       0x0000000000000011       0x12 ./RISCV/env_Eclipse/handlers.o
  .comment       0x0000000000000011       0x12 ./RISCV/env_Eclipse/init.o
  .comment       0x0000000000000011       0x12 ./Peripherals/system_gd32vf103.o
+ .comment       0x0000000000000011       0x12 ./Peripherals/Source/gd32vf103_gpio.o
  .comment       0x0000000000000011       0x12 ./Peripherals/Source/gd32vf103_usart.o
  .comment       0x0000000000000011       0x12 ./App/main.o
  .comment       0x0000000000000011       0x12 d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-atexit.o)
@@ -2237,33 +2236,35 @@ OUTPUT(t.elf elf32-littleriscv)
  .riscv.attributes
                 0x00000000000000dc       0x1c ./Peripherals/system_gd32vf103.o
  .riscv.attributes
-                0x00000000000000f8       0x1c ./Peripherals/Source/gd32vf103_usart.o
+                0x00000000000000f8       0x1c ./Peripherals/Source/gd32vf103_gpio.o
  .riscv.attributes
-                0x0000000000000114       0x1c ./App/main.o
+                0x0000000000000114       0x1c ./Peripherals/Source/gd32vf103_usart.o
  .riscv.attributes
-                0x0000000000000130       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-atexit.o)
+                0x0000000000000130       0x1c ./App/main.o
  .riscv.attributes
-                0x000000000000014c       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-exit.o)
+                0x000000000000014c       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-atexit.o)
  .riscv.attributes
-                0x0000000000000168       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-fini.o)
+                0x0000000000000168       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-exit.o)
  .riscv.attributes
-                0x0000000000000184       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-impure.o)
+                0x0000000000000184       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-fini.o)
  .riscv.attributes
-                0x00000000000001a0       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-init.o)
+                0x00000000000001a0       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-impure.o)
  .riscv.attributes
-                0x00000000000001bc       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-memcpy.o)
+                0x00000000000001bc       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-init.o)
  .riscv.attributes
-                0x00000000000001d8       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-syswrite.o)
+                0x00000000000001d8       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-memcpy.o)
  .riscv.attributes
-                0x00000000000001f4       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-writer.o)
+                0x00000000000001f4       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-syswrite.o)
  .riscv.attributes
-                0x0000000000000210       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-__atexit.o)
+                0x0000000000000210       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-writer.o)
  .riscv.attributes
-                0x000000000000022c       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-__call_atexit.o)
+                0x000000000000022c       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-__atexit.o)
  .riscv.attributes
-                0x0000000000000248       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-reent.o)
+                0x0000000000000248       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-__call_atexit.o)
+ .riscv.attributes
+                0x0000000000000264       0x1c d:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin/../lib/gcc/riscv-nuclei-elf/9.2.0/../../../../riscv-nuclei-elf/lib/rv32i/ilp32\libg_nano.a(lib_a-reent.o)
 
-.debug_frame    0x0000000000000000      0x7d4
+.debug_frame    0x0000000000000000      0x924
  .debug_frame   0x0000000000000000      0x2fc ./RISCV/drivers/n200_func.o
  .debug_frame   0x00000000000002fc       0x84 ./RISCV/stubs/write.o
  .debug_frame   0x0000000000000380       0x48 ./RISCV/stubs/write_hex.o
@@ -2271,5 +2272,6 @@ OUTPUT(t.elf elf32-littleriscv)
  .debug_frame   0x00000000000003f4       0x40 ./RISCV/env_Eclipse/handlers.o
  .debug_frame   0x0000000000000434       0x3c ./RISCV/env_Eclipse/init.o
  .debug_frame   0x0000000000000470       0x48 ./Peripherals/system_gd32vf103.o
- .debug_frame   0x00000000000004b8      0x2ec ./Peripherals/Source/gd32vf103_usart.o
- .debug_frame   0x00000000000007a4       0x30 ./App/main.o
+ .debug_frame   0x00000000000004b8      0x144 ./Peripherals/Source/gd32vf103_gpio.o
+ .debug_frame   0x00000000000005fc      0x2ec ./Peripherals/Source/gd32vf103_usart.o
+ .debug_frame   0x00000000000008e8       0x3c ./App/main.o
