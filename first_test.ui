@@ -107,6 +107,7 @@
     </widget>
     <addaction name="actionchoose_workspace"/>
     <addaction name="menuChoose_background_style"/>
+    <addaction name="actionChoose_GCC_toolchain"/>
    </widget>
    <widget class="QMenu" name="menuProject">
     <property name="title">
@@ -119,6 +120,7 @@
      <addaction name="actionnew_empty_project"/>
      <addaction name="actionnew_gd32vf103_project"/>
      <addaction name="actionnew_prv332_project"/>
+     <addaction name="actionPRV464_asemble_only"/>
     </widget>
     <addaction name="menuNew_Project"/>
     <addaction name="actionOpen_Project"/>
@@ -128,6 +130,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionserial_monitor"/>
+    <addaction name="actionPRV332_IDE"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -634,6 +637,21 @@
    </property>
    <property name="text">
     <string>Server data</string>
+   </property>
+  </action>
+  <action name="actionPRV332_IDE">
+   <property name="text">
+    <string>PRV332_IDE</string>
+   </property>
+  </action>
+  <action name="actionChoose_GCC_toolchain">
+   <property name="text">
+    <string>Choose GCC toolchain</string>
+   </property>
+  </action>
+  <action name="actionPRV464_asemble_only">
+   <property name="text">
+    <string>PRV464 asemble only</string>
    </property>
   </action>
  </widget>

@@ -1,6 +1,7 @@
 import os
 import subprocess
 import shutil
+import _thread
 path_evn = '/env_Eclipse'
 path_drivers = '/drivers'
 path_stubs = '/stubs'

@@ -25,6 +25,7 @@ class move_source:
         self.from_path = read_line(configure_file,5)[:-1]
         self.source_path = self.from_path+'/source'
         self.include_path = self.from_path + '/include'
+        self.pro_asm_path = self.path + '/main.S'
 
 
 
@@ -32,7 +33,9 @@ class move_source:
         with open(self.project_main_path,'w') as main:
             main.write('//Created at '+self.time_now+'\n'+"//Eve ide ")
 
-
+    def create_amsonly(self):
+        with open(self.pro_asm_path,'w') as main:
+            main.write('//Created at '+self.time_now+'\n'+"//Eve ide ")
 
     def create_with_source(self):#创建含有source的工程
         '''

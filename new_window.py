@@ -1,7 +1,9 @@
 #
 import sys
+import re
 import os
 from select_workspace import Ui_select
+from select_gcc_toolchain import Ui_select_gcc
 from new_project import new_project
 from create_sourcefile import move_source
 from first_test import Ui_MainWindow
@@ -25,8 +27,8 @@ import qdarkstyle
 import keyword
 from serial_show import Pyqt5_Serial
 from make_project import do_make
-
 import threading
+import _thread
 
 surpport_chips = ['empty','gd32vg103','prv332']
 configure_file = "configure.txt"
@@ -597,19 +599,6 @@ class select_work(QMainWindow, Ui_select):
         # write_line(configure_file,1,self.new_space)
         self.lineEdit.selectAll()
 
-    '''
-    def ope(self):#单击select的操作
-
-        self.new_space = QFileDialog.getExistingDirectory(self,
-                                                      "选取文件夹",
-                                                      "./")  #起始路径
-        self.lineEdit.setText(self.new_space)
-        print(self.new_space)
-        self.change_state = 1
-        #write_line(configure_file,1,self.new_space)
-
-        self.lineEdit.selectAll()
-    '''
 
     def hide(self):  #
 
@@ -633,6 +622,39 @@ class select_work(QMainWindow, Ui_select):
         self.close()
 
         open_main_window()
+
+class select_gcc(QMainWindow, Ui_select_gcc):
+    def __init__(self):
+        global open_by_main
+        super(select_gcc, self).__init__()
+
+        self.setupUi(self)
+
+        self.setWindowIcon(QIcon("main.ico"))
+
+        # self.open_by_main= 0
+
+
+    @QtCore.pyqtSlot()
+    def on_select_directory_clicked(self):
+        self.new_space = QFileDialog.getExistingDirectory(self,
+                                                          "选取文件夹",
+                                                          "./")  # 起始路径
+        self.lineEdit.setText(self.new_space)
+        print(self.new_space)
+        self.change_state = 1
+        # write_line(configure_file,1,self.new_space)
+        self.lineEdit.selectAll()
+
+
+
+    # def accept(self):
+    @QtCore.pyqtSlot()
+    def on_buttonBox_accepted(self):
+
+        write_line(configure_file, 6, self.new_space)
+
+        self.close()
 
 
 class main_win(QMainWindow, Ui_MainWindow):
@@ -732,7 +754,7 @@ class logic_main(main_win):
         #print(self.project_path)
         self.project_path = l
         self.path_name_list = []#propath名字
-        self.project_path_dict = {}
+        self.project_path_dict = {} #已经创建了的工程的字典
         self.project_file_function_dict = {}#pro +filename+func+line
         self.file_fuction_dict = {}#完整路径和function名字filename+func+line
         self.function_list  = []#方便分辨是否为function
@@ -883,6 +905,11 @@ class logic_main(main_win):
         self.dock_serial.closeEvent = self.dock_serial_close
 
     def reset_tree(self,fna):
+        #t1 = threading.Thread(target=self.reset_tree_handler,args=fna)
+        #t1.start()
+        self.reset_tree_handler(fna)
+        #_thread.start_new_thread(self.reset_tree_handler,(fna,))
+    def reset_tree_handler(self,fna):
         self.tree.clear()
         # path = read_line(configure_file, 1)[:-1]
         for path in self.project_path:
@@ -966,6 +993,14 @@ class logic_main(main_win):
 
 
     def set_tree(self):
+        #t1 = threading.Thread(target=self.set_tree_handler)
+        #t1.start()
+        #_thread.start_new_thread(self.set_tree_handler,())
+        self.set_tree_handler()
+
+
+
+    def set_tree_handler(self):
         self.tree.clear()
         #path = read_line(configure_file, 1)[:-1]
         for path in self.project_path:
@@ -1092,11 +1127,13 @@ class logic_main(main_win):
         self.tree.setContextMenuPolicy(Qt.CustomContextMenu)  # 开放右键策略
         self.tree.customContextMenuRequested.connect(self.OnTreeRightMenuShow)  # 树的右键菜单
         self.actionchoose_workspace.triggered.connect(self.choose_workspace)#选择工作区域
+        self.actionChoose_GCC_toolchain.triggered.connect(self.choose_gcc_toolchain)
         self.tabWidget.tabCloseRequested.connect(self.closeTab)#重写关闭tab
         self.actionserial_monitor.triggered.connect(self.open_serial_monitor)
         self.actionOpen_Project.triggered.connect(self.add_project)
         self.actionnew_empty_project.triggered.connect(lambda : self.new_project("empty"))
         self.actionnew_gd32vf103_project.triggered.connect(lambda : self.new_project("gd32vf103"))
+        self.actionPRV464_asemble_only.triggered.connect(lambda : self.new_project("prv464a"))
         self.actionnew_prv332_project.triggered.connect(lambda:self.new_project("prv332"))
         #print("triggerok")
         self.Jump2Func_Signal[str].connect(self.do_Jump2Function)  # 右键跳转到函数
@@ -1159,6 +1196,9 @@ class logic_main(main_win):
 
     def create_new_project(self,which):
 
+
+
+
         new_pro_name = read_line(configure_file,1)[:-1]+"/"+new_pro.lineEdit.text()
         project_main_path = new_pro_name+'/main.c'
         project_source_path = new_pro_name+'/source'
@@ -1182,14 +1222,19 @@ class logic_main(main_win):
                     os.mkdir(new_pro_name)
                     create_act.create_empty()
 
+            elif which =="prv464a":
+                if not os.path.exists(new_pro_name):
+                    os.mkdir(new_pro_name)
+                    create_act.create_amsonly()
+                    write_line(configure_file,7,full_path)
 
 
 
-            if which == 'gd32vf103':
+            elif which == 'gd32vf103':
                 create_act.create_with_source()
 
 
-            if which == 'prv332':
+            elif which == 'prv332':
                 if not os.path.exists(new_pro_name):
                     os.mkdir(new_pro_name)
                     create_act.create_with_main()
@@ -1251,6 +1296,10 @@ class logic_main(main_win):
         self.file_save()
         self.tabWidget.removeTab(i)
         '''
+
+    def choose_gcc_toolchain(self):
+        gcc_tool.show()
+
     def choose_workspace(self):
         global open_by_main
         # write_line(configure_file,4,"1")
@@ -1325,7 +1374,13 @@ class logic_main(main_win):
             #print(self.path_name_list[name_str])
             self.project_path.remove(self.project_path_dict[name_str])
             del self.project_path_dict[name_str]
-            self.set_tree()
+            try:
+                self.set_tree()
+            except:
+                reply = QMessageBox.question(self, '警告', '按也不知为啥没删掉',
+                                             QMessageBox.Yes, QMessageBox.No)
+
+        print("ok_delet it ")
 
 
 
@@ -1573,6 +1628,8 @@ class logic_main(main_win):
 
     '''
 
+    #def do_action_menu(self,which_action):
+     #   _thread.start_new_thread(self.do_action_menu_handler, (which_action,))
     def do_action_menu(self,which_action):
         try:
             print(which_action.text())
@@ -1598,38 +1655,30 @@ class logic_main(main_win):
                 else:
                     break
         print(pro_p)
+        print(read_line(configure_file,7).strip())
 
-
-
-        try:
-            auto_make = do_make(pro_p, 'nuclei', 'gd')
-            auto_make.create_path_gd()
-            if auto_make.state:
-                auto_make.create_makefile_obj_source_gd()
-                auto_make.create_sub_makefile_gd()
-                #auto_make.do_make_gd()
-
-            else:
-                auto_make.create_sub_makefile_gd()
-                #auto_make.do_make_gd()
-            path = auto_make.path
+        if(str(pro_p)==str(read_line(configure_file,7)).strip()):
+            file_S=pro_p+"/main.S"
+            file_o = pro_p+"/main.o"
+            file_bin = pro_p+"/main.bin"
+            file_obj = pro_p+"/a.txt"
+            print("prv464project")
+            cmd1 = "riscv-nuclei-elf-gcc -march=rv64ia -mabi=lp64 -c "+file_S+" -o "+file_o
+            cmd2 = "riscv-nuclei-elf-objdump -d "+file_o
             gcc_path = read_line(configure_file, 6)[:-1]
-            # (gcc_path)
-            cmd = "make all -C " + path
-            # obj = subprocess.Popen("mkdir t3", shell=True, cwd='/tmp/')
-            pipe = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, cwd=gcc_path,
+            pipe = subprocess.Popen(cmd1, shell=True, stdout=subprocess.PIPE, cwd=gcc_path,
                                     stderr=subprocess.PIPE)
-            #li_re = pipe.readlines()
+            # li_re = pipe.readlines()
             self.text_browser.clear()
             time_now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 
-            st_first = 'build at ' +time_now+" by Eve ide\n"
+            st_first = 'build at ' + time_now + " by Eve ide\n"
             self.text_browser.setPlainText(st_first)
 
-            #th1 = threading.Thread(target=self.build_output)
-            #th1.start()
+            # th1 = threading.Thread(target=self.build_output)
+            # th1.start()
             for i in iter(pipe.stdout.readline, 'b'):
-                #i = str(i, encoding='utf-8')
+                # i = str(i, encoding='utf-8')
 
                 self.st_process = str(i, encoding='utf-8')
                 self.text_browser.append(self.st_process)
@@ -1640,7 +1689,7 @@ class logic_main(main_win):
 
             pipe.stdout.close()
             if pipe.stderr:
-                for i in iter(pipe.stdout.readline, 'b'):
+                for i in iter(pipe.stderr.readline, 'b'):
                     # i = str(i, encoding='utf-8')
 
                     self.st_process = str(i, encoding='utf-8')
@@ -1649,10 +1698,121 @@ class logic_main(main_win):
                     if not subprocess.Popen.poll(pipe) is None:
                         if i == b'':
                             break
+            #self.text_browser.setPlainText("finish building\n")
+            output_obj = subprocess.Popen(cmd2, shell=True, stdout=subprocess.PIPE, cwd=gcc_path,
+                                    stderr=subprocess.PIPE)
+            with open(file_obj, "w+") as o:
+                o.write(str(output_obj.stdout.read(), encoding="utf-8"))
+            pattern = r'^\s+\w+:\s+(?P<bin>.+).+$'
+            now = 0
+            high = 0
+            low = 0
+            i = 0
+            with open(file_bin, "w+") as fw:
+                '''
+                with open(file_obj, "r")as fr:
+                    for line in fr:
+                        i += 1
+                        if (i >= 5):
+                            i=0
+                            fw.write(line)
+                    fw.write("\nIn Binary:\n")
+                    print("giao")
+                '''
+                with open(file_obj, "r")as fr:
+                    for line in fr:
+                        i+=1
+                        if(i>=5):
+                            print("into")
+                            #line = line.replace(' ', '')
+                            print(line)
+                            a = re.search(pattern, line)
+                            # try:
+                            if (a):
+                                k = ''
+                                now += 1
+                                w = a.group('bin')
+                                inhex = w[0:8];
+                                print("thisid" + str(inhex) + "okk")
+                                for im in range(0, 8):
+                                    b = bin(int(inhex[im], 16));
+                                    print(b)
+                                    k += b[2:].zfill(4)
+
+                                if (now % 2):
+                                    low = k
+                                else:
+                                    # k='0'
+                                    high = k
+                                    fw.write(high + low + '\n')
+                                # print(w)
+                            else:
+                                print("okk")
+                    if (now % 2):
+                        fw.write(low.zfill(64) + '\n')
+                        # except:
+                        #   print('nothing')
+                    #self.set_tree()
 
 
-        except:
-            pass
+
+        else:
+
+
+
+
+            try:
+                auto_make = do_make(pro_p, 'nuclei', 'gd')
+                auto_make.create_path_gd()
+                if auto_make.state:
+                    auto_make.create_makefile_obj_source_gd()
+                    auto_make.create_sub_makefile_gd()
+                    #auto_make.do_make_gd()
+
+                else:
+                    auto_make.create_sub_makefile_gd()
+                    #auto_make.do_make_gd()
+                path = auto_make.path
+                gcc_path = read_line(configure_file, 6)[:-1]
+                # (gcc_path)
+                cmd = "make all -C " + path
+                # obj = subprocess.Popen("mkdir t3", shell=True, cwd='/tmp/')
+                pipe = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, cwd=gcc_path,
+                                        stderr=subprocess.PIPE)
+                #li_re = pipe.readlines()
+                self.text_browser.clear()
+                time_now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+
+                st_first = 'build at ' +time_now+" by Eve ide\n"
+                self.text_browser.setPlainText(st_first)
+
+                #th1 = threading.Thread(target=self.build_output)
+                #th1.start()
+                for i in iter(pipe.stdout.readline, 'b'):
+                    #i = str(i, encoding='utf-8')
+
+                    self.st_process = str(i, encoding='utf-8')
+                    self.text_browser.append(self.st_process)
+                    print(i)
+                    if not subprocess.Popen.poll(pipe) is None:
+                        if i == b'':
+                            break
+                #self.text_browser.setPlainText("finish\n")
+                pipe.stdout.close()
+                if pipe.stderr:
+                    for i in iter(pipe.stderr.readline, 'b'):
+                        # i = str(i, encoding='utf-8')
+
+                        self.st_process = str(i, encoding='utf-8')
+                        self.text_browser.append(self.st_process)
+                        print(i)
+                        if not subprocess.Popen.poll(pipe) is None:
+                            if i == b'':
+                                break
+
+
+            except:
+                pass
         if text =='Simulate online':
             pass
         elif text =='Download':
@@ -1828,6 +1988,7 @@ if __name__ == "__main__":
     app = Application(sys.argv)
     new_pro = new_project()
     select = select_work()
+    gcc_tool = select_gcc()
     # mainwin = main_win()
     mainwin = logic_main()
 
