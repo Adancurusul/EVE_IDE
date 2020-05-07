@@ -1,0 +1,8 @@
+
+D:/codes/python/Eve_ide/new2/main.o:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+0000000000000000 <main>:
+   0:	00310033          	add	zero,sp,gp

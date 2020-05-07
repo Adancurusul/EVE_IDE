@@ -523,12 +523,42 @@ class SciTextEdit(QsciScintilla):
             self.saveas()
         else:
             #write_text = self.text()
+            try:
+                fh = QFile(self.filename)
+                # print(fh)
+                if not fh.open(QIODevice.WriteOnly):
+                    raise IOError(str(fh.errorString()))
+                stream = QTextStream(fh)
+                stream.setCodec("UTF-8")
+                stream << self.text()
+                for line in self.list_line:
+                    self.markerDeleteHandle(line)
+                self.list_line.clear()
 
+                #self.editor.document().setModified(False)
+            except EnvironmentError as e:
+                QMessageBox.warning(self, "Eve ide -- Save Error",
+                                    "Failed to save {0}: {1}".format(self.filename, e))
+                return False
+            finally:
+                if fh is not None:
+                    fh.close()
             #save_name = self.win.file_path_dict[self.filename]
+            '''
             try:
                 #print(save_name)
+                
                 with open(self.filename,"w+",encoding='utf-8') as w_file:
-                    w_file.write(self.text())
+                    savestr = self.text()
+                    #savestr = self.text().replace('\r\n',' \n')
+                    b = bytes(savestr, 'utf-8')
+                    print(b)
+                    w_file.write(savestr)
+                import stat
+
+                os.chmod(self.filename, stat.S_IREAD)
+
+
                 #清除改动标记
                 for line in self.list_line:
                     self.markerDeleteHandle(line)
@@ -536,8 +566,9 @@ class SciTextEdit(QsciScintilla):
             except:
                 QMessageBox.warning(self, "EVE IDE -- SAVE Error",
                                     "Failed to save {0}".format(QFileInfo(self.filename).fileName()))
-
+            '''
     def save_when_close_tab(self):
+        print("close tab without saving")
         if self.filename == None:
             reply = QMessageBox.question(self,
                                          "Eve IDE",
@@ -553,11 +584,17 @@ class SciTextEdit(QsciScintilla):
 
         else:
             # write_text = self.text()
-
+            self.save()
             # save_name = self.win.file_path_dict[self.filename]
+            '''
             try:
                 # print(save_name)
                 with open(self.filename, "w+", encoding='utf-8') as w_file:
+                    savestr = self.text()
+                    # savestr = self.text().replace('\r\n',' \n')
+                    b = bytes(savestr, 'utf-8')
+                    print(b)
+
                     w_file.write(self.text())
                 # 清除改动标记
                 for line in self.list_line:
@@ -566,7 +603,7 @@ class SciTextEdit(QsciScintilla):
             except:
                 QMessageBox.warning(self, "EVE IDE -- SAVE Error",
                                     "Failed to save {0}".format(QFileInfo(self.filename).fileName()))
-
+'''
 
 
 class select_work(QMainWindow, Ui_select):
@@ -828,16 +865,24 @@ class logic_main(main_win):
         now.setCursorPosition(line,0)
 
         #print(functionname_to_jump)
-    def dis_enable(self,state):
-        #print(self)
-        #print(str(state)+"this is state")
-        self.action_save.setEnabled(state)
-        self.action_saveas.setEnabled(state)
+    def make_enable(self,state):
         self.actionChange_into_COE.setEnabled(state)
         self.actionChange_into_MIF.setEnabled(state)
         self.actionChange_into_Binary.setEnabled(state)
         self.actionChange_into_Hex.setEnabled(state)
         self.actionView_the_Eluminate.setEnabled(state)
+    def dis_enable(self,state):
+        #print(self)
+        #print(str(state)+"this is state")
+        self.action_save.setEnabled(state)
+        self.action_saveas.setEnabled(state)
+        '''
+        self.actionChange_into_COE.setEnabled(state)
+        self.actionChange_into_MIF.setEnabled(state)
+        self.actionChange_into_Binary.setEnabled(state)
+        self.actionChange_into_Hex.setEnabled(state)
+        self.actionView_the_Eluminate.setEnabled(state)
+        '''
         self.actioncut.setEnabled(state)
         self.actionpaste.setEnabled(state)
         self.actionindent.setEnabled(state)
@@ -1284,12 +1329,19 @@ class logic_main(main_win):
         #self.file_save()
         self.tabWidget.setCurrentIndex(tab_index)#获取关闭的标签的index
         current_tab = self.tabWidget.currentWidget()
-        fname = current_tab.filename
-        self.tree_tab_connection_dict.pop(fname)
-        #print(name.filename)
         self.save_when_close_tab()
+        fname = current_tab.filename
+        print(fname)
+        if not fname==None:
+            self.tree_tab_connection_dict.pop(fname)
+            #print(name.filename)
+
         self.tabWidget.removeTab(tab_index)
         self.all_index-=1
+        print("all index now is :"+str(self.all_index))
+        if self.all_index==0 :
+            self.make_enable(0)
+
         #self.opened_file_list.remove(name.filename)
         '''
         i = self.tabWidget.currentIndex()
@@ -1593,7 +1645,7 @@ class logic_main(main_win):
                                                 "Failed to open {0}".format(extension))
 
 
-
+        self.make_enable(1)
 
     def view_triggered(self, name, state):  # 当view下按键状态改变时触发
         if name == "Build_output":
@@ -1637,6 +1689,10 @@ class logic_main(main_win):
         except:
             text = "from editor"
         textEdit = self.tabWidget.currentWidget()
+        if textEdit==None:
+            QMessageBox.warning(self, "EVE IDE -- make Error",
+                                "nothing to make")
+            return
         textEdit.save()
         current_tree = textEdit.tree
 
@@ -1788,6 +1844,8 @@ class logic_main(main_win):
 
                 #th1 = threading.Thread(target=self.build_output)
                 #th1.start()
+                #self.text_browser.setTextColor(QColor.black())
+                self.text_browser.setTextColor(QColor('black'))
                 for i in iter(pipe.stdout.readline, 'b'):
                     #i = str(i, encoding='utf-8')
 
@@ -1797,9 +1855,12 @@ class logic_main(main_win):
                     if not subprocess.Popen.poll(pipe) is None:
                         if i == b'':
                             break
+                #self.text_browser.append("\nfinish\n")
                 #self.text_browser.setPlainText("finish\n")
+                print("build finish")
                 pipe.stdout.close()
                 if pipe.stderr:
+                    self.text_browser.setTextColor(QColor('red'))
                     for i in iter(pipe.stderr.readline, 'b'):
                         # i = str(i, encoding='utf-8')
 
@@ -1827,6 +1888,8 @@ class logic_main(main_win):
             pass
         else:
             pass
+        self.file_list(self.project_path, self.list_of_files_with_path, self.list_of_files,
+                       0)
         self.set_tree()
         self.change_tab(0)
 

@@ -29,6 +29,7 @@ class move_source:
 
 
 
+
     def create_empty(self):
         with open(self.project_main_path,'w') as main:
             main.write('//Created at '+self.time_now+'\n'+"//Eve ide ")
@@ -36,6 +37,11 @@ class move_source:
     def create_amsonly(self):
         with open(self.pro_asm_path,'w') as main:
             main.write('//Created at '+self.time_now+'\n'+"//Eve ide ")
+        with open(self.path+"/a.txt","w")as a:
+            with open(self.path + "/main.bin", "w")as b:
+                pass
+
+
 
     def create_with_source(self):#创建含有source的工程
         '''
