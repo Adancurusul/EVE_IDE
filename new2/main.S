@@ -2,4 +2,4 @@
 //Eve ide 
 
 main:
-add x0,x2,x3
+addi x1,x0,-0x07f0

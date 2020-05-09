@@ -20,7 +20,8 @@ from PyQt5.Qsci import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal
 from PyQt5 import QtCore
-import lupa
+#
+#import lupa
 import time
 from functools import partial
 import qdarkstyle
@@ -34,11 +35,15 @@ surpport_chips = ['empty','gd32vg103','prv332']
 configure_file = "configure.txt"
 open_by_main = 0
 
-
+#
+#由文件路径获得文件名
+#
 def file_name(path):
     return os.listdir(path)
 
-
+# file_path ,specific_line
+#Read specified line and return
+# str of line
 def read_line(name, li):  # 读取指定文件指定行
     with open(name, "r") as in_file:
         num = 0
@@ -47,7 +52,9 @@ def read_line(name, li):  # 读取指定文件指定行
             if num == li:
                 return line
 
-
+#file path , line number , string to write
+#Write into specified line
+# none
 def write_line(name, li, sentence):  # 写入到指定文件指定行
     with open(configure_file, 'r') as re_file:
         lines = re_file.readlines()
@@ -56,16 +63,21 @@ def write_line(name, li, sentence):  # 写入到指定文件指定行
             lines[li - 1] = sentence + '\n'
             wr_file.writelines(lines)
 
+
+
+'''
 class EmittingStream(QObject):
     textWritten = pyqtSignal(str)  # 定义一个发送str的信号
 
     def write(self, text):
         self.textWritten.emit(str(text))
-
+'''
 KEYWORD_LIST_FUNC = ['if', 'while', 'for', 'switch']
 g_allFuncList = []
 
-
+#
+# class to get the function of .c file
+#
 class lexer_c_getfunc:
     def __init__(self, fileFullName):
         self.current_row = -1
@@ -187,6 +199,9 @@ class lexer_c_getfunc:
                                     return ('SCANEOF', 0)
                                 next_char = self.getchar()
 
+#
+# find and return the filename and functiondict
+# fileanme ,functiondict{key = funname,value = line}
     def lexer_analysis(self):
         [dirname, filename] = os.path.split(self.fullName)
         #print(self.fullName)
@@ -210,9 +225,9 @@ class lexer_c_getfunc:
 
 
 
-
-
-
+#
+#set font and highlight of editor
+#
 class MyLexerCPP(QsciLexerCPP):
     def __init__(self, parent):
         QsciLexerCPP.__init__(self, parent)
@@ -241,6 +256,10 @@ class MyLexerCPP(QsciLexerCPP):
         self.setFont(font, QsciLexerCPP.Comment)  # 注释的字体用斜体。
 
 
+
+#
+# Main edit area
+#
 class SciTextEdit(QsciScintilla):
     NextId = 1
 
