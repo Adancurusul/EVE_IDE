@@ -1,0 +1,34 @@
+ELF_SRCS :=
+C_UPPER_SRCS :=
+CXX_SRCS :=
+C++_SRCS :=
+OBJ_SRCS :=
+CC_SRCS :=
+ASM_SRCS :=
+C_SRCS :=
+CPP_SRCS :=
+S_UPPER_SRCS :=
+O_SRCS :=
+CC_DEPS :=
+C++_DEPS :=
+OBJS :=
+C_UPPER_DEPS :=
+CXX_DEPS :=
+SECONDARY_FLASH :=
+SECONDARY_LIST :=
+SECONDARY_SIZE :=
+ASM_DEPS :=
+S_UPPER_DEPS :=
+C_DEPS :=
+CPP_DEPS :=
+
+
+
+SUBDIRS := \
+App \
+Peripherals \
+RISCV \
+Peripherals/Source \
+RISCV/stubs \
+RISCV/drivers \
+RISCV/env_Eclipse
