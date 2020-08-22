@@ -1,0 +1,22 @@
+<RCC>
+  <qresource prefix="pic">
+    <file>download.ico</file>
+    <file>change_into_mif.ico</file>
+    <file>change_bin.ico</file>
+    <file>change_coe.ico</file>
+    <file>change_bin.ico</file>
+    <file>change_coe.ico</file>
+    <file>change_hex.ico</file>
+    <file>connect.ico</file>
+    <file>editcopy.ico</file>
+    <file>editcut.ico</file>
+    <file>editindent.ico</file>
+    <file>editpaste.ico</file>
+    <file>editunindent.ico</file>
+    <file>filenew.ico</file>
+    <file>fileopen.ico</file>
+    <file>filesave.ico</file>
+    <file>icons.qrc</file>
+    <file>main.ico</file>
+  </qresource>
+</RCC>
