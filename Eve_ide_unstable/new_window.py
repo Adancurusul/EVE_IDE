@@ -1639,7 +1639,7 @@ class logic_main(main_win):
     #   _thread.start_new_thread(self.do_action_menu_handler, (which_action,))
     def do_action_menu(self, which_action):
         try:
-            print(which_action.text())
+            #print(which_action.text())
             text = which_action.text()
         except:
             text = "from editor"
@@ -1655,6 +1655,7 @@ class logic_main(main_win):
 
         # pa = item.parent()
         i = 0
+        print("find project path")
         while (1):
             if pa:
                 if pa.text(0):
@@ -1665,7 +1666,7 @@ class logic_main(main_win):
                         pa = pa.parent()
                 else:
                     break
-        print(pro_p)
+        print("project path is "+pro_p)
         print(read_line(configure_file, 7).strip())
 
         if (str(pro_p) == str(read_line(configure_file, 7)).strip()):
