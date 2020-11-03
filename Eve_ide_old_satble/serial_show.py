@@ -253,21 +253,22 @@ class Pyqt5_Serial(QtWidgets.QWidget, Ui_Form):
 
     # 关闭串口
     def port_close(self):
-        self.timer.stop()
-        self.timer_send.stop()
-        try:
+
+        if self.ser.isOpen():
             self.ser.close()
-        except:
-            pass
+
+
+
         self.open_button.setEnabled(True)
         self.close_button.setEnabled(False)
-        self.lineEdit_3.setEnabled(True)
+        #self.lineEdit_3.setEnabled(True)
         # 接收数据和发送数据数目置零
-        self.data_num_received = 0
+        #self.data_num_received = 0
         #self.lineEdit.setText(str(self.data_num_received))
-        self.data_num_sended = 0
+        #self.data_num_sended = 0
         #self.lineEdit_2.setText(str(self.data_num_sended))
-        self.formGroupBox1.setTitle("串口状态（已关闭）")
+        #self.formGroupBox1.setTitle("串口状态（已关闭）")
+
 
     # 发送数据
     def data_send(self):

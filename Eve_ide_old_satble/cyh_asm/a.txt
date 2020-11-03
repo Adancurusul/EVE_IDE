@@ -1,17 +1,34 @@
-
-D:/codes/python/Eve_ide/cyh_asm/main.o:     file format elf64-littleriscv
-
-
-Disassembly of section .text:
-
-0000000000000000 <main>:
-   0:	010000b7          	lui	ra,0x1000
-   4:	01000113          	li	sp,16
-   8:	00108093          	addi	ra,ra,1 # 1000001 <nop+0xffffe9>
-   c:	00108023          	sb	ra,0(ra)
-  10:	00108093          	addi	ra,ra,1
-  14:	fe2096e3          	bne	ra,sp,0 <main>
-
-0000000000000018 <nop>:
-  18:	00000013          	nop
-  1c:	ffdff1ef          	jal	gp,18 <nop>
+
+
+D:/codes/python/Eve_ide/cyh_asm/main.o:     file format elf64-littleriscv
+
+
+
+
+
+Disassembly of section .text:
+
+
+
+0000000000000000 <main>:
+
+   0:	010000b7          	lui	ra,0x1000
+
+   4:	01000113          	li	sp,16
+
+   8:	00108093          	addi	ra,ra,1 # 1000001 <nop+0xffffe9>
+
+   c:	00108023          	sb	ra,0(ra)
+
+  10:	00108093          	addi	ra,ra,1
+
+  14:	fe2096e3          	bne	ra,sp,0 <main>
+
+
+
+0000000000000018 <nop>:
+
+  18:	00000013          	nop
+
+  1c:	ffdff1ef          	jal	gp,18 <nop>
+

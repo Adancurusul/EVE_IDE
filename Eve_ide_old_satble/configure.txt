@@ -1,7 +1,7 @@
 D:/codes/python/Eve_ide
 1
 Dark
-D:/codes/python/Eve_ide/gd_first;D:/codes/python/Eve_ide/rv64_first
+
 ./modual
 D:/rv_gcc/rv_windows_bare_9.21_win32/rv_windows_2020_1_5/bin
-D:/codes/python/Eve_ide/new2
+D:/codes/python/Eve_ide/t4

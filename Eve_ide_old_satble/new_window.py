@@ -1,4 +1,18 @@
-#
+'''''
+#eve ide v0.0.3 (ustable)
+#Auther : Adancurusul  
+#email : chen.yuheng@nexuslink.cn
+
+
+
+
+'''
+
+
+
+
+
+
 import sys
 import re
 import os
@@ -9,8 +23,9 @@ from create_sourcefile import move_source
 from first_test import Ui_MainWindow
 import subprocess
 # from sele import Ui_s
+####################################importQt
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+#from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtCore import QUrl
 from PyQt5.QtCore import (QEvent, QFile, QFileInfo, QIODevice, QRegExp,
                           QTextStream, Qt, QSize, pyqtSignal, QObject)
@@ -31,6 +46,7 @@ import qdarkstyle
 import keyword
 from serial_show import Pyqt5_Serial
 from make_project import do_make
+from MyLexerCPP import MyLexerCPP
 import threading
 import _thread
 
@@ -222,36 +238,9 @@ class lexer_c_getfunc:
 #
 # set font and highlight of editor
 #
-class MyLexerCPP(QsciLexerCPP):
-    def __init__(self, parent):
-        QsciLexerCPP.__init__(self, parent)
-        self.setFont(self.parent().Font)
-        self.setColor(QColor(0, 0, 0))  # 设置默认的字体颜色
-        self.setPaper(QColor(255, 255, 255))  # 设置底色
-        self.setColor(QColor("#B0171F"), QsciLexerCPP.Keyword)
-
-        self.setColor(QColor("#008000"), QsciLexerCPP.CommentDoc)  # 文档注释 /**开头的颜色
-        self.setColor(QColor("#008000"), QsciLexerCPP.Comment)  # 块注释 的颜色
-        self.setColor(QColor("#008000"), QsciLexerCPP.CommentLine)  # 行注释的颜色
-        self.setColor(QColor("#007f7f"), QsciLexerCPP.Number)  # 数字 的颜色
-        self.setColor(QColor("#ff00ff"), QsciLexerCPP.DoubleQuotedString)  # 双引号字符串的颜色
-        self.setColor(QColor("#ff00ff"), QsciLexerCPP.SingleQuotedString)  # 单引号字符的颜色
-        self.setColor(QColor("#191970"), QsciLexerCPP.PreProcessor)  # 预编译语句的颜色
-        self.setColor(QColor("#be07ff"), QsciLexerCPP.Operator)
-        # self.setColor(QColor("#000000"), QsciLexerCPP.Identifier)  #可识别字符的颜色，这个范围很广，包含了关键词，函数名；所以要取消这句
-        self.setColor(QColor("#0000FF"), QsciLexerCPP.UnclosedString)  # 未完成输入的字符串的颜色
-
-        font = QFont(self.parent().Font)
-        font.setBold(True)
-        self.setFont(font, 5)  # 默认的字体加粗。
-
-        font = QFont(self.parent().Font)
-        font.setItalic(True)
-        self.setFont(font, QsciLexerCPP.Comment)  # 注释的字体用斜体。
-
 
 #
-# Main edit area
+# Main edit area 
 #
 class SciTextEdit(QsciScintilla):
     NextId = 1
@@ -1298,6 +1287,7 @@ class logic_main(main_win):
     def open_serial_monitor(self):
 
         # print("oprn_serial_monitor")
+
         serial_monitor.show()
 
     def closeTab(self, tab_index):
@@ -1405,7 +1395,7 @@ class logic_main(main_win):
             try:
                 self.set_tree()
             except:
-                reply = QMessageBox.question(self, '警告', '按也不知为啥没删掉',
+                reply = QMessageBox.question(self, '警告', '俺也不知为啥没删掉',
                                              QMessageBox.Yes, QMessageBox.No)
 
         print("ok_delet it ")
@@ -1649,154 +1639,53 @@ class logic_main(main_win):
     # def do_action_menu(self,which_action):
     #   _thread.start_new_thread(self.do_action_menu_handler, (which_action,))
     def do_action_menu(self, which_action):
-        try:
-            print(which_action.text())
-            text = which_action.text()
-        except:
-            text = "from editor"
-        textEdit = self.tabWidget.currentWidget()
-        if textEdit == None:
-            QMessageBox.warning(self, "EVE IDE -- make Error",
-                                "nothing to make")
-            return
-        textEdit.save()
-        current_tree = textEdit.tree
-
-        pa = current_tree
-
-        # pa = item.parent()
-        i = 0
-        while (1):
-            if pa:
-                if pa.text(0):
-                    if pa.text(0) in self.path_name_list:
-                        pro_p = self.project_path_dict[pa.text(0)]
-                        break
-                    else:
-                        pa = pa.parent()
-                else:
-                    break
-        print(pro_p)
-        print(read_line(configure_file, 7).strip())
-
-        if (str(pro_p) == str(read_line(configure_file, 7)).strip()):
-            file_S = pro_p + "/main.S"
-            file_o = pro_p + "/main.o"
-            file_bin = pro_p + "/main.bin"
-            file_obj = pro_p + "/a.txt"
-            print("prv464project")
-            cmd1 = "riscv-nuclei-elf-gcc -march=rv64ia -mabi=lp64 -c " + file_S + " -o " + file_o
-            cmd2 = "riscv-nuclei-elf-objdump -d " + file_o
-            gcc_path = read_line(configure_file, 6)[:-1]
-            pipe = subprocess.Popen(cmd1, shell=True, stdout=subprocess.PIPE, cwd=gcc_path,
-                                    stderr=subprocess.PIPE)
-            # li_re = pipe.readlines()
-            self.text_browser.clear()
-            time_now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-
-            st_first = 'build at ' + time_now + " by Eve ide\n"
-            self.text_browser.setPlainText(st_first)
-
-            # th1 = threading.Thread(target=self.build_output)
-            # th1.start()
-            for i in iter(pipe.stdout.readline, 'b'):
-                # i = str(i, encoding='utf-8')
-
-                self.st_process = str(i, encoding='utf-8')
-                self.text_browser.append(self.st_process)
-                print(i)
-                if not subprocess.Popen.poll(pipe) is None:
-                    if i == b'':
-                        break
-
-            pipe.stdout.close()
-            if pipe.stderr:
-                for i in iter(pipe.stderr.readline, 'b'):
-                    # i = str(i, encoding='utf-8')
-
-                    self.st_process = str(i, encoding='utf-8')
-                    self.text_browser.append(self.st_process)
-                    print(i)
-                    if not subprocess.Popen.poll(pipe) is None:
-                        if i == b'':
-                            break
-            # self.text_browser.setPlainText("finish building\n")
-            output_obj = subprocess.Popen(cmd2, shell=True, stdout=subprocess.PIPE, cwd=gcc_path,
-                                          stderr=subprocess.PIPE)
-            with open(file_obj, "w+") as o:
-                o.write(str(output_obj.stdout.read(), encoding="utf-8"))
-            pattern = r'^\s+\w+:\s+(?P<bin>.+).+$'
-            now = 0
-            high = 0
-            low = 0
-            i = 0
-            with open(file_bin, "w+") as fw:
-                '''
-                with open(file_obj, "r")as fr:
-                    for line in fr:
-                        i += 1
-                        if (i >= 5):
-                            i=0
-                            fw.write(line)
-                    fw.write("\nIn Binary:\n")
-                    print("giao")
-                '''
-                with open(file_obj, "r")as fr:
-                    for line in fr:
-                        i += 1
-                        if (i >= 5):
-                            print("into")
-                            # line = line.replace(' ', '')
-                            print(line)
-                            a = re.search(pattern, line)
-                            # try:
-                            if (a):
-                                k = ''
-                                now += 1
-                                w = a.group('bin')
-                                inhex = w[0:8];
-                                print("thisid" + str(inhex) + "okk")
-                                for im in range(0, 8):
-                                    b = bin(int(inhex[im], 16));
-                                    print(b)
-                                    k += b[2:].zfill(4)
-
-                                if (now % 2):
-                                    low = k
-                                else:
-                                    # k='0'
-                                    high = k
-                                    fw.write(high + low + '\n')
-                                # print(w)
-                            else:
-                                print("okk")
-                    if (now % 2):
-                        fw.write(low.zfill(64) + '\n')
-                        # except:
-                        #   print('nothing')
-                    # self.set_tree()
-
-
-
+        gcc_path = read_line(configure_file, 6)[:-1]
+        if(not os.path.exists(gcc_path)):
+            QtWidgets.QMessageBox.critical(self, "错误", "路径下没有找到gcc，请重新设置")
+            gcc_tool.show()
         else:
-
             try:
-                auto_make = do_make(pro_p, 'nuclei', 'gd')
-                auto_make.create_path_gd()
-                if auto_make.state:
-                    auto_make.create_makefile_obj_source_gd()
-                    auto_make.create_sub_makefile_gd()
-                    # auto_make.do_make_gd()
+                #print(which_action.text())
+                text = which_action.text()
+            except:
+                text = "from editor"
+            textEdit = self.tabWidget.currentWidget()
+            if textEdit == None:
+                QMessageBox.warning(self, "EVE IDE -- make Error",
+                                    "nothing to make")
+                return
+            textEdit.save()
+            current_tree = textEdit.tree
 
-                else:
-                    auto_make.create_sub_makefile_gd()
-                    # auto_make.do_make_gd()
-                path = auto_make.path
-                gcc_path = read_line(configure_file, 6)[:-1]
-                # (gcc_path)
-                cmd = "make all -C " + path
-                # obj = subprocess.Popen("mkdir t3", shell=True, cwd='/tmp/')
-                pipe = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, cwd=gcc_path,
+            pa = current_tree
+
+            # pa = item.parent()
+            i = 0
+            print("find project path")
+            print(self.project_path_dict)
+            while (1):
+                if pa:
+                    if pa.text(0):
+                        if pa.text(0) in self.path_name_list:
+                            pro_p = self.project_path_dict[pa.text(0)]
+                            break
+                        else:
+                            pa = pa.parent()
+                    else:
+                        break
+            print("project path is "+pro_p)
+            print(read_line(configure_file, 7).strip())
+
+            if (str(pro_p) == str(read_line(configure_file, 7)).strip()):
+                file_S = pro_p + "/main.S"
+                file_o = pro_p + "/main.o"
+                file_bin = pro_p + "/main.bin"
+                file_obj = pro_p + "/a.txt"
+                print("prv464project")
+                cmd1 = "riscv-nuclei-elf-gcc -march=rv64ia -mabi=lp64 -c " + file_S + " -o " + file_o
+                cmd2 = "riscv-nuclei-elf-objdump -d " + file_o
+
+                pipe = subprocess.Popen(cmd1, shell=True, stdout=subprocess.PIPE, cwd=gcc_path,
                                         stderr=subprocess.PIPE)
                 # li_re = pipe.readlines()
                 self.text_browser.clear()
@@ -1807,8 +1696,6 @@ class logic_main(main_win):
 
                 # th1 = threading.Thread(target=self.build_output)
                 # th1.start()
-                # self.text_browser.setTextColor(QColor.black())
-                self.text_browser.setTextColor(QColor('black'))
                 for i in iter(pipe.stdout.readline, 'b'):
                     # i = str(i, encoding='utf-8')
 
@@ -1818,12 +1705,9 @@ class logic_main(main_win):
                     if not subprocess.Popen.poll(pipe) is None:
                         if i == b'':
                             break
-                # self.text_browser.append("\nfinish\n")
-                # self.text_browser.setPlainText("finish\n")
-                print("build finish")
+
                 pipe.stdout.close()
                 if pipe.stderr:
-                    self.text_browser.setTextColor(QColor('red'))
                     for i in iter(pipe.stderr.readline, 'b'):
                         # i = str(i, encoding='utf-8')
 
@@ -1833,28 +1717,141 @@ class logic_main(main_win):
                         if not subprocess.Popen.poll(pipe) is None:
                             if i == b'':
                                 break
+                # self.text_browser.setPlainText("finish building\n")
+                output_obj = subprocess.Popen(cmd2, shell=True, stdout=subprocess.PIPE, cwd=gcc_path,
+                                              stderr=subprocess.PIPE)
+                with open(file_obj, "w+") as o:
+                    o.write(str(output_obj.stdout.read(), encoding="utf-8"))
+                pattern = r'^\s+\w+:\s+(?P<bin>.+).+$'
+                now = 0
+                high = 0
+                low = 0
+                i = 0
+                with open(file_bin, "w+") as fw:
+                    '''
+                    with open(file_obj, "r")as fr:
+                        for line in fr:
+                            i += 1
+                            if (i >= 5):
+                                i=0
+                                fw.write(line)
+                        fw.write("\nIn Binary:\n")
+                        print("giao")
+                    '''
+                    with open(file_obj, "r")as fr:
+                        for line in fr:
+                            i += 1
+                            if (i >= 5):
+                                print("into")
+                                # line = line.replace(' ', '')
+                                print(line)
+                                a = re.search(pattern, line)
+                                # try:
+                                if (a):
+                                    k = ''
+                                    now += 1
+                                    w = a.group('bin')
+                                    inhex = w[0:8];
+                                    print("thisid" + str(inhex) + "okk")
+                                    for im in range(0, 8):
+                                        b = bin(int(inhex[im], 16));
+                                        print(b)
+                                        k += b[2:].zfill(4)
+
+                                    if (now % 2):
+                                        low = k
+                                    else:
+                                        # k='0'
+                                        high = k
+                                        fw.write(high + low + '\n')
+                                    # print(w)
+                                else:
+                                    print("okk")
+                        if (now % 2):
+                            fw.write(low.zfill(64) + '\n')
+                            # except:
+                            #   print('nothing')
+                        # self.set_tree()
 
 
-            except:
+
+            else:
+
+                try:
+                    auto_make = do_make(pro_p, 'nuclei', 'gd')
+                    auto_make.create_path_gd()
+                    if auto_make.state:
+                        auto_make.create_makefile_obj_source_gd()
+                        auto_make.create_sub_makefile_gd()
+                        # auto_make.do_make_gd()
+
+                    else:
+                        auto_make.create_sub_makefile_gd()
+                        # auto_make.do_make_gd()
+                    path = auto_make.path
+                    gcc_path = read_line(configure_file, 6)[:-1]
+                    # (gcc_path)
+                    cmd = "make all -C " + path
+                    # obj = subprocess.Popen("mkdir t3", shell=True, cwd='/tmp/')
+                    pipe = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, cwd=gcc_path,
+                                            stderr=subprocess.PIPE)
+                    # li_re = pipe.readlines()
+                    self.text_browser.clear()
+                    time_now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+
+                    st_first = 'build at ' + time_now + " by Eve ide\n"
+                    self.text_browser.setPlainText(st_first)
+
+                    # th1 = threading.Thread(target=self.build_output)
+                    # th1.start()
+                    # self.text_browser.setTextColor(QColor.black())
+                    self.text_browser.setTextColor(QColor('black'))
+                    for i in iter(pipe.stdout.readline, 'b'):
+                        # i = str(i, encoding='utf-8')
+
+                        self.st_process = str(i, encoding='utf-8')
+                        self.text_browser.append(self.st_process)
+                        print(i)
+                        if not subprocess.Popen.poll(pipe) is None:
+                            if i == b'':
+                                break
+                    # self.text_browser.append("\nfinish\n")
+                    # self.text_browser.setPlainText("finish\n")
+                    print("build finish")
+                    pipe.stdout.close()
+                    if pipe.stderr:
+                        self.text_browser.setTextColor(QColor('red'))
+                        for i in iter(pipe.stderr.readline, 'b'):
+                            # i = str(i, encoding='utf-8')
+
+                            self.st_process = str(i, encoding='utf-8')
+                            self.text_browser.append(self.st_process)
+                            print(i)
+                            if not subprocess.Popen.poll(pipe) is None:
+                                if i == b'':
+                                    break
+
+
+                except:
+                    pass
+            if text == 'Simulate online':
                 pass
-        if text == 'Simulate online':
-            pass
-        elif text == 'Download':
-            pass
-        elif text == 'Change into Hex':
-            pass
-        elif text == 'Change into COE':
-            pass
-        elif text == 'Change into Binary':
-            pass
-        elif text == 'Change into MIF':
-            pass
-        else:
-            pass
-        self.file_list(self.project_path, self.list_of_files_with_path, self.list_of_files,
-                       0)
-        self.set_tree()
-        self.change_tab(0)
+            elif text == 'Download':
+                pass
+            elif text == 'Change into Hex':
+                pass
+            elif text == 'Change into COE':
+                pass
+            elif text == 'Change into Binary':
+                pass
+            elif text == 'Change into MIF':
+                pass
+            else:
+                pass
+            self.file_list(self.project_path, self.list_of_files_with_path, self.list_of_files,
+                           0)
+            self.set_tree()
+            self.change_tab(0)
 
     def do_file_menu(self, action_of_file):
         # print(action_of_file.text() + "is triggered")
@@ -2003,8 +2000,8 @@ if __name__ == "__main__":
 
     #QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = Application(sys.argv)
-    view = QWebEngineView()
-    view.load(QUrl('http://192.168.43.187/'))
+    #view = QWebEngineView()
+    #view.load(QUrl('http://192.168.43.187/'))
     # view.show()
 
     new_pro = new_project()
@@ -2015,7 +2012,7 @@ if __name__ == "__main__":
 
     serial_monitor = Pyqt5_Serial()
     if style == "Dark":
-        print("okk")
+        #print("okk")
         # setup stylesheet
         app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
         # app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
@@ -2024,7 +2021,7 @@ if __name__ == "__main__":
             app.setStyleSheet('')
             app.setStyle(style)
             # app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
-            print("okkkk")
+            #print("okkkk")
     if not show_it:
         select.show()
     else:
