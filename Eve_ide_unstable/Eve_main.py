@@ -45,9 +45,9 @@ import time
 from functools import partial
 import qdarkstyle
 import keyword
-from serial_show import Pyqt5_Serial
-from make_project import do_make
-from MyLexerCPP import MyLexerCPP
+from Eve_logic.serial_monitor.serial_show import Pyqt5_Serial
+from Eve_logic.build.make_project import do_make
+from Eve_logic.edit_area.MyLexerCPP import MyLexerCPP
 import threading
 import _thread
 
@@ -1780,18 +1780,26 @@ class logic_main(main_win):
 
                 try:
                     auto_make = do_make(pro_p, 'nuclei', 'gd')
+
+
                     auto_make.create_path_gd()
+
                     if auto_make.state:
+                        print('a')
                         auto_make.create_makefile_obj_source_gd()
+                        print('b')
                         auto_make.create_sub_makefile_gd()
                         # auto_make.do_make_gd()
 
                     else:
+                        print('c')
                         auto_make.create_sub_makefile_gd()
                         # auto_make.do_make_gd()
+
                     path = auto_make.path
                     gcc_path = read_line(configure_file, 6)[:-1]
                     # (gcc_path)
+                    print('makeproject'+gcc_path)
                     cmd = "make all -C " + path
                     # obj = subprocess.Popen("mkdir t3", shell=True, cwd='/tmp/')
                     pipe = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, cwd=gcc_path,
@@ -1834,7 +1842,7 @@ class logic_main(main_win):
 
 
                 except:
-                    pass
+                    print('fail to build')
             if text == 'Simulate online':
                 pass
             elif text == 'Download':
@@ -1853,6 +1861,7 @@ class logic_main(main_win):
                            0)
             self.set_tree()
             self.change_tab(0)
+            print('end_make')
 
     def do_file_menu(self, action_of_file):
         # print(action_of_file.text() + "is triggered")
