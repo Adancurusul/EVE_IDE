@@ -14,8 +14,8 @@ int main(){
 	while (a<10)
 	gpio_init(GPIOA, GPIO_MODE_OUT_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_7);
 		a++;
-			prin("kiao);
-	function_test;
+	
+	
 }
 
 	

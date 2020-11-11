@@ -1743,9 +1743,9 @@ class logic_main(main_win):
                         for line in fr:
                             i += 1
                             if (i >= 5):
-                                print("into")
+                                #print("into")
                                 # line = line.replace(' ', '')
-                                print(line)
+                                #print(line)
                                 a = re.search(pattern, line)
                                 # try:
                                 if (a):
@@ -1753,10 +1753,10 @@ class logic_main(main_win):
                                     now += 1
                                     w = a.group('bin')
                                     inhex = w[0:8];
-                                    print("thisid" + str(inhex) + "okk")
+                                    print(str(inhex)[0:2]+' '+str(inhex)[2:4]+' '+str(inhex)[4:6]+' '+str(inhex)[6:8] )
                                     for im in range(0, 8):
                                         b = bin(int(inhex[im], 16));
-                                        print(b)
+                                        #print(b)
                                         k += b[2:].zfill(4)
 
                                     if (now % 2):
@@ -1767,7 +1767,8 @@ class logic_main(main_win):
                                         fw.write(high + low + '\n')
                                     # print(w)
                                 else:
-                                    print("okk")
+                                    pass
+                                   # print("okk")
                         if (now % 2):
                             fw.write(low.zfill(64) + '\n')
                             # except:

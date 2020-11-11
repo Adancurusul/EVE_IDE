@@ -21,9 +21,9 @@ class MyLexerCPP(QsciLexerCPP):
 
         font = QFont(self.parent().Font)
         font.setBold(True)
+        font.setItalic(True)
+        self.setFont(font, QsciLexerCPP.Comment)  # 注释的字体用斜体。
         self.setFont(font, 5)  # 默认的字体加粗。
 
         font = QFont(self.parent().Font)
-        font.setItalic(True)
-        self.setFont(font, QsciLexerCPP.Comment)  # 注释的字体用斜体。
 

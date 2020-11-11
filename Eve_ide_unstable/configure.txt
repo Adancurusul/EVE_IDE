@@ -1,7 +1,7 @@
 D:/codes/python/Eve_ide
 1
 Fusion
-D:/codes/python/Eve_ide/new_pro
+D:/codes/python/Eve_ide/new_pro;D:/codes/python/Eve_ide/tes;C:/Users/user/code/EVE_IDE/Eve_ide_unstable/t
 ./modual
 D:/nuclei_riscv_newlibc_prebuilt_win32_2020.08/gcc/bin
-D:/codes/python/Eve_ide/t4
+D:/codes/python/Eve_ide/tes
